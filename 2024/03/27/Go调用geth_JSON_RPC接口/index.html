@@ -21,20 +21,20 @@
     var CONFIG = {"hostname":"47.120.40.107","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":true,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+  <meta name="description" content="在Go中调用以太坊的格式如下 123client, _ :&#x3D; rpc.Dial(&quot;http:&#x2F;&#x2F;localhost:8545&quot;)var result boolclient.Call(&amp;result ,&quot;net_listening&quot;)   有以下常用接口 net1、net_version当前连接网络的ID 12var networkid stringc">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="https://47.120.40.107/2024/03/23/hello-world/index.html">
+<meta property="og:title" content="Go调用geth JSON RPC接口">
+<meta property="og:url" content="https://47.120.40.107/2024/03/27/Go%E8%B0%83%E7%94%A8geth_JSON_RPC%E6%8E%A5%E5%8F%A3/index.html">
 <meta property="og:site_name" content="黄梓铭 (Ivan Wong)">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="在Go中调用以太坊的格式如下 123client, _ :&#x3D; rpc.Dial(&quot;http:&#x2F;&#x2F;localhost:8545&quot;)var result boolclient.Call(&amp;result ,&quot;net_listening&quot;)   有以下常用接口 net1、net_version当前连接网络的ID 12var networkid stringc">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-03-23T01:43:50.483Z">
-<meta property="article:modified_time" content="2024-03-26T06:52:32.333Z">
+<meta property="article:published_time" content="2024-03-27T02:05:38.000Z">
+<meta property="article:modified_time" content="2024-03-27T02:07:35.031Z">
 <meta property="article:author" content="黄梓铭">
 <meta property="article:tag" content="C&#x2F;C++, C#, Go, 算法, 游戏">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://47.120.40.107/2024/03/23/hello-world/">
+<link rel="canonical" href="https://47.120.40.107/2024/03/27/Go%E8%B0%83%E7%94%A8geth_JSON_RPC%E6%8E%A5%E5%8F%A3/">
 
 
 <script id="page-configurations">
@@ -47,7 +47,7 @@
   };
 </script>
 
-  <title>Hello World | 黄梓铭 (Ivan Wong)</title>
+  <title>Go调用geth JSON RPC接口 | 黄梓铭 (Ivan Wong)</title>
   
 
 
@@ -192,7 +192,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://47.120.40.107/2024/03/23/hello-world/">
+    <link itemprop="mainEntityOfPage" href="https://47.120.40.107/2024/03/27/Go%E8%B0%83%E7%94%A8geth_JSON_RPC%E6%8E%A5%E5%8F%A3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/MyPhoto.jpg">
@@ -205,7 +205,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Hello World
+          Go调用geth JSON RPC接口
         </h1>
 
         <div class="post-meta">
@@ -214,23 +214,17 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2024-03-23 09:43:50" itemprop="dateCreated datePublished" datetime="2024-03-23T09:43:50+08:00">2024-03-23</time>
+              <time title="创建时间：2024-03-27 10:05:38 / 修改时间：10:07:35" itemprop="dateCreated datePublished" datetime="2024-03-27T10:05:38+08:00">2024-03-27</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-03-26 14:52:32" itemprop="dateModified" datetime="2024-03-26T14:52:32+08:00">2024-03-26</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/startup/" itemprop="url" rel="index"><span itemprop="name">startup</span></a>
+                  <a href="/categories/%E7%A7%91%E7%A0%94/" itemprop="url" rel="index"><span itemprop="name">科研</span></a>
                 </span>
             </span>
 
@@ -247,14 +241,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>431</span>
+              <span>2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -266,20 +260,51 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2><span id="quick-start">Quick Start</span></h2><h3><span id="create-a-new-post">Create a new post</span></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+        <p>在Go中调用以太坊的格式如下</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">client, _ := rpc.Dial(<span class="string">&quot;http://localhost:8545&quot;</span>)</span><br><span class="line"><span class="keyword">var</span> result <span class="type">bool</span></span><br><span class="line">client.Call(&amp;result ,<span class="string">&quot;net_listening&quot;</span>) </span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3><span id="run-server">Run server</span></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>有以下常用接口</p>
+<h2><span id="net">net</span></h2><p>1、net_version<br>当前连接网络的ID</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> networkid <span class="type">string</span></span><br><span class="line">client.Call(&amp;networkid,<span class="string">&quot;net_version&quot;</span>)</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3><span id="generate-static-files">Generate static files</span></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>2、net_listening<br>客户端是否处于监听状态</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> is_listing <span class="type">bool</span></span><br><span class="line">client.Call(&amp;is_listing,<span class="string">&quot;net_listening&quot;</span>)</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3><span id="deploy-to-remote-sites">Deploy to remote sites</span></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<h2><span id="eth">eth</span></h2><p>1、eth_accounts<br>返回账户地址数组</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> accounts []<span class="type">string</span></span><br><span class="line">client.Call(&amp;accounts,<span class="string">&quot;eth_accounts&quot;</span>)</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p>2、eth_getBalance<br>需要传入账户地址，返回余额，单位是<em>wei</em><br> “latest” 表示你要查询的是当前链上最新的账户余额</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> balance <span class="type">string</span></span><br><span class="line">client.Call(&amp;balance,<span class="string">&quot;eth_getBalance&quot;</span>,<span class="string">&quot;0x558c90c05d8c4b55a87de03bd601fd76faf50f9b&quot;</span>,<span class="string">&quot;latest&quot;</span>)</span><br></pre></td></tr></table></figure>
 
+<p>3、eth_coinbase<br>获取挖矿账户地址</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> proto_version <span class="type">string</span></span><br><span class="line">client.Call(&amp;proto_version , <span class="string">&quot;eth_protocolVersion&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>4、eth_mining<br>返回客户端是否在挖矿</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> is_mining <span class="type">bool</span></span><br><span class="line">client.Call(&amp;is_mining,<span class="string">&quot;eth_mining&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>5、eth_getTransactionCount<br>返回指定地址发生的交易数量</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> transactionCount <span class="type">string</span></span><br><span class="line">client.Call(&amp;transactionCount,<span class="string">&quot;eth_getBalance&quot;</span>,<span class="string">&quot;0x72w12d05d8c4b55a87de03bd601fd76faf50f9b&quot;</span>,<span class="string">&quot;latest&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>6、eth_blockNumber<br>获取当前块编号</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> blockNum <span class="type">string</span></span><br><span class="line">client.Call(&amp;blockNum ,<span class="string">&quot;eth_blockNumber&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2><span id="personal">personal</span></h2><p>1、personal_listAccounts<br>获取该节点下的所有账户</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> accounts []<span class="type">string</span></span><br><span class="line">client.Call(&amp;accounts,<span class="string">&quot;personal_listAccounts&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>2.personal_newAccount<br>创建用户，需要将密码作为参数传入</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> newAccount <span class="type">string</span></span><br><span class="line">client.Call(&amp;newAccount, <span class="string">&quot;personal_newAccount&quot;</span>, <span class="string">&quot;12345678&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>3.personal_lockAccount<br>锁定指定账户，需要将地址作为参数传入</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> is_lock <span class="type">bool</span></span><br><span class="line">client.Call(&amp;is_lock, <span class="string">&quot;personal_lockAccount&quot;</span>, <span class="string">&quot;账户地址&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>4.personal_unlockAccount<br>解锁指定账户,有些操作必须解锁账户才可以操作</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> is_unlock <span class="type">bool</span></span><br><span class="line">client.Call(&amp;is_unlock, <span class="string">&quot;personal_lockAccount&quot;</span>, <span class="string">&quot;账户地址&quot;</span>,<span class="string">&quot;账户密码&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2><span id="db">db</span></h2><p>1.db_putString<br>在本地数据库中存入字符串</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> is_ok <span class="type">bool</span></span><br><span class="line">client.Call(&amp;is_ok, <span class="string">&quot;db_putString&quot;</span>, <span class="string">&quot;db_name&quot;</span>,<span class="string">&quot;key&quot;</span>,<span class="string">&quot;&quot;</span>value<span class="string">&quot;)</span></span><br></pre></td></tr></table></figure>
+
+<p>2.db_getString<br>从本地数据库读取字符串</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> val <span class="type">string</span></span><br><span class="line">client.Call(&amp;val, <span class="string">&quot;db_getString&quot;</span>, <span class="string">&quot;db_name&quot;</span>,<span class="string">&quot;key&quot;</span>)</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -313,10 +338,13 @@
 
         
     <div class="post-nav">
-      <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/2024/03/23/My-First-Post/" rel="next" title="My First Post">
-      My First Post <i class="fa fa-chevron-right"></i>
+    <a href="/2024/03/26/%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E9%93%BE/" rel="prev" title="Linux系统构建以太坊私链">
+      <i class="fa fa-chevron-left"></i> Linux系统构建以太坊私链
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/03/28/%E7%BB%BC%E5%90%88%E5%AE%9E%E8%AE%AD%E8%B0%83%E7%A0%94/" rel="next" title="综合实训调研">
+      综合实训调研 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -376,7 +404,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">net</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">eth</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">personal</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">4.</span> <span class="nav-text">db</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

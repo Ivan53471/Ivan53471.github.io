@@ -21,20 +21,22 @@
     var CONFIG = {"hostname":"47.120.40.107","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":true,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+  <meta name="description" content="配置Go环境1、首先切换到管理员身份sudo -s 2、下载官⽅的 go 语⾔编译器压缩包wget https:&#x2F;&#x2F;go.dev&#x2F;dl&#x2F;go1.21.3.linux-amd64.tar.gz 3、解压缩刚下载的新版本并放置到合适的位置tar -C &#x2F;usr&#x2F;local -xzf go1.21.3.linux-amd64.tar.gz（如果有旧版本，先输入 rm -rf &#x2F;usr&#x2F;local&#x2F;go">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="https://47.120.40.107/2024/03/23/hello-world/index.html">
+<meta property="og:title" content="Linux系统构建以太坊私链">
+<meta property="og:url" content="https://47.120.40.107/2024/03/26/%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E9%93%BE/index.html">
 <meta property="og:site_name" content="黄梓铭 (Ivan Wong)">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="配置Go环境1、首先切换到管理员身份sudo -s 2、下载官⽅的 go 语⾔编译器压缩包wget https:&#x2F;&#x2F;go.dev&#x2F;dl&#x2F;go1.21.3.linux-amd64.tar.gz 3、解压缩刚下载的新版本并放置到合适的位置tar -C &#x2F;usr&#x2F;local -xzf go1.21.3.linux-amd64.tar.gz（如果有旧版本，先输入 rm -rf &#x2F;usr&#x2F;local&#x2F;go">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-03-23T01:43:50.483Z">
-<meta property="article:modified_time" content="2024-03-26T06:52:32.333Z">
+<meta property="og:image" content="https://47.120.40.107/pic/%E4%B8%8B%E8%BD%BD%E5%AE%8C%E6%88%90.png">
+<meta property="article:published_time" content="2024-03-26T03:19:07.000Z">
+<meta property="article:modified_time" content="2024-03-27T02:07:19.763Z">
 <meta property="article:author" content="黄梓铭">
 <meta property="article:tag" content="C&#x2F;C++, C#, Go, 算法, 游戏">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://47.120.40.107/pic/%E4%B8%8B%E8%BD%BD%E5%AE%8C%E6%88%90.png">
 
-<link rel="canonical" href="https://47.120.40.107/2024/03/23/hello-world/">
+<link rel="canonical" href="https://47.120.40.107/2024/03/26/%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E9%93%BE/">
 
 
 <script id="page-configurations">
@@ -47,7 +49,7 @@
   };
 </script>
 
-  <title>Hello World | 黄梓铭 (Ivan Wong)</title>
+  <title>Linux系统构建以太坊私链 | 黄梓铭 (Ivan Wong)</title>
   
 
 
@@ -192,7 +194,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://47.120.40.107/2024/03/23/hello-world/">
+    <link itemprop="mainEntityOfPage" href="https://47.120.40.107/2024/03/26/%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E9%93%BE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/MyPhoto.jpg">
@@ -205,7 +207,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Hello World
+          Linux系统构建以太坊私链
         </h1>
 
         <div class="post-meta">
@@ -215,14 +217,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2024-03-23 09:43:50" itemprop="dateCreated datePublished" datetime="2024-03-23T09:43:50+08:00">2024-03-23</time>
+              <time title="创建时间：2024-03-26 11:19:07" itemprop="dateCreated datePublished" datetime="2024-03-26T11:19:07+08:00">2024-03-26</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-03-26 14:52:32" itemprop="dateModified" datetime="2024-03-26T14:52:32+08:00">2024-03-26</time>
+                <time title="修改时间：2024-03-27 10:07:19" itemprop="dateModified" datetime="2024-03-27T10:07:19+08:00">2024-03-27</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -230,7 +232,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/startup/" itemprop="url" rel="index"><span itemprop="name">startup</span></a>
+                  <a href="/categories/%E7%A7%91%E7%A0%94/" itemprop="url" rel="index"><span itemprop="name">科研</span></a>
                 </span>
             </span>
 
@@ -247,7 +249,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>431</span>
+              <span>1.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -266,19 +268,41 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2><span id="quick-start">Quick Start</span></h2><h3><span id="create-a-new-post">Create a new post</span></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+        <h2><span id="配置go环境">配置Go环境</span></h2><p>1、首先切换到管理员身份<br><code>sudo -s</code></p>
+<p>2、下载官⽅的 go 语⾔编译器压缩包<br><code>wget https://go.dev/dl/go1.21.3.linux-amd64.tar.gz</code></p>
+<p>3、解压缩刚下载的新版本并放置到合适的位置<br><code>tar -C /usr/local -xzf go1.21.3.linux-amd64.tar.gz</code><br>（如果有旧版本，先输入 <code>rm -rf /usr/local/go</code> 移除）</p>
+<p>4、设定环境变量<br><code>export PATH=$PATH:/usr/local/go/bin</code><br>试试看是否正常（应该会看到版本号）<br><code>go version</code></p>
+<h2><span id="构建geth">构建geth</span></h2><p>1、下载git<br><code>sudo apt install git</code></p>
+<p>2、克隆以太坊源码<br>这一步很可能连不上github，没什么解决方法，多试<br><code>git clone https://github.com/ethereum/go-ethereum.git</code></p>
+<p>3、进入ethereum所在文件夹<br><code>cd go-ethereum</code></p>
+<p>4、编译geth<br><code>make geth</code><br>如果发现下载很慢，可以终止掉，设置代理<br><code>export GOPROXY=https://goproxy.io,direct</code><br>下载完成，应该可以看到以下画面</p>
+<p><img data-src="/pic/%E4%B8%8B%E8%BD%BD%E5%AE%8C%E6%88%90.png"></p>
+<p>5、进⼊⽬录<br><code>cd build/bin</code></p>
+<p>6、启动主程序，连接主⽹并同步<br><code>./geth</code></p>
+<h2><span id="搭建私链">搭建私链</span></h2><p>1、创造配置文件<br>在不同于以太坊源码的文件路径下创一个文件夹和.json文件，命名为genesis.json</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir /project/MyChain</span><br><span class="line">vl /project/MyChain/genesis.json</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3><span id="run-server">Run server</span></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>2、初始化链</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd build/bin</span><br><span class="line">geth --datadir ../project/MyChain/ init ../project/MyChain/genesis.json</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3><span id="generate-static-files">Generate static files</span></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>3、启用链<br>此处启用私链，并且开启RPC接口<br><code>geth --datadir ../project/MyChain/ --identity &quot;fanone&quot; --rpc --rpcport 8545  --rpcapi &quot;db,eth,net,web3,personal&quot; --rpccorsdomain &quot;*&quot; --networkid 15</code><br>-–identity “fanone”：节点身份标识<br>-–rpc：开启 RPC 接口<br>–rpcport：指定端口<br>–rpcapi：开启的RPC API<br>–rpccorsdomain：跨域请求，”*”为允许所有来源的跨域请求<br>–networkid：网络标识符，用于连上私链，networkid是在genesis.json中确定的</p>
+<!-- 在admin里面可以看到监听的端口号
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3><span id="deploy-to-remote-sites">Deploy to remote sites</span></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+personal.newAccount() 创建新用户
+输入密码，返回值是账户地址
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+personal.unlockAccount(eth.accounts[0]) 
+之后就可以输入密码，解锁账号
+
+miner.start 开始挖矿
+
+geth --datadir ../project/MyChain/ --networkid 15 console 2>output.log
+2代表输出，>是重定向
+
+geth --datadir ../project/MyChain/ --networkid 15 --rpc console 2>output.log
+
+可以用开发者模式 -dev -->
+
 
     </div>
 
@@ -313,10 +337,13 @@
 
         
     <div class="post-nav">
-      <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/2024/03/23/My-First-Post/" rel="next" title="My First Post">
-      My First Post <i class="fa fa-chevron-right"></i>
+    <a href="/2024/03/23/My-First-Post/" rel="prev" title="My First Post">
+      <i class="fa fa-chevron-left"></i> My First Post
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/03/27/Go%E8%B0%83%E7%94%A8geth_JSON_RPC%E6%8E%A5%E5%8F%A3/" rel="next" title="Go调用geth JSON RPC接口">
+      Go调用geth JSON RPC接口 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -376,7 +403,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">配置Go环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">构建geth</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">搭建私链</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
