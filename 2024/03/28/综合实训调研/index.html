@@ -21,16 +21,22 @@
     var CONFIG = {"hostname":"47.120.40.107","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":true,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="由于综合实践项目需要用到Flink CDC、Kafka、ElasticSearch、Kibana、Doris，以下是对这些框架&#x2F;技术的调研 Flink CDCFlink CDC 是一个基于流的数据集成工具，旨在为用户提供一套功能更加全面的编程接口（API）。 事件事件分为DataChangeEvent、SchemaChangeEvent、Flow of Events DataChange">
+<meta property="og:type" content="article">
 <meta property="og:title" content="综合实训调研">
 <meta property="og:url" content="https://47.120.40.107/2024/03/28/%E7%BB%BC%E5%90%88%E5%AE%9E%E8%AE%AD%E8%B0%83%E7%A0%94/index.html">
 <meta property="og:site_name" content="黄梓铭 (Ivan Wong)">
+<meta property="og:description" content="由于综合实践项目需要用到Flink CDC、Kafka、ElasticSearch、Kibana、Doris，以下是对这些框架&#x2F;技术的调研 Flink CDCFlink CDC 是一个基于流的数据集成工具，旨在为用户提供一套功能更加全面的编程接口（API）。 事件事件分为DataChangeEvent、SchemaChangeEvent、Flow of Events DataChange">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://47.120.40.107/2024/03/28/%E7%BB%BC%E5%90%88%E5%AE%9E%E8%AE%AD%E8%B0%83%E7%A0%94/flow-of-events.png">
+<meta property="og:image" content="https://47.120.40.107/2024/03/28/%E7%BB%BC%E5%90%88%E5%AE%9E%E8%AE%AD%E8%B0%83%E7%A0%94/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85.png">
+<meta property="og:image" content="https://47.120.40.107/2024/03/28/%E7%BB%BC%E5%90%88%E5%AE%9E%E8%AE%AD%E8%B0%83%E7%A0%94/Kafka.png">
 <meta property="article:published_time" content="2024-03-28T07:01:55.000Z">
-<meta property="article:modified_time" content="2024-03-28T07:04:57.956Z">
+<meta property="article:modified_time" content="2024-03-29T05:00:24.681Z">
 <meta property="article:author" content="黄梓铭">
 <meta property="article:tag" content="C&#x2F;C++, C#, Go, 算法, 游戏">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://47.120.40.107/2024/03/28/%E7%BB%BC%E5%90%88%E5%AE%9E%E8%AE%AD%E8%B0%83%E7%A0%94/flow-of-events.png">
 
 <link rel="canonical" href="https://47.120.40.107/2024/03/28/%E7%BB%BC%E5%90%88%E5%AE%9E%E8%AE%AD%E8%B0%83%E7%A0%94/">
 
@@ -130,7 +136,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">5</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">6</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -212,10 +218,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2024-03-28 15:01:55 / 修改时间：15:04:57" itemprop="dateCreated datePublished" datetime="2024-03-28T15:01:55+08:00">2024-03-28</time>
+              <time title="创建时间：2024-03-28 15:01:55" itemprop="dateCreated datePublished" datetime="2024-03-28T15:01:55+08:00">2024-03-28</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-03-29 13:00:24" itemprop="dateModified" datetime="2024-03-29T13:00:24+08:00">2024-03-29</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -243,14 +255,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
+              <span>3.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -262,7 +274,90 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <p>由于综合实践项目需要用到Flink CDC、Kafka、ElasticSearch、Kibana、Doris，以下是对这些框架&#x2F;技术的调研</p>
+<h2><span id="flink-cdc">Flink CDC</span></h2><p><a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-cdc-docs-release-3.0/zh/docs/get-started/introduction/">Flink CDC</a> 是一个基于流的数据集成工具，旨在为用户提供一套功能更加全面的编程接口（API）。</p>
+<h3><span id="事件">事件</span></h3><p>事件分为DataChangeEvent、SchemaChangeEvent、Flow of Events</p>
+<h4><span id="datachangeevent">DataChangeEvent</span></h4><p><em>DataChangeEvent</em> 描述了源中的数据变更。它由 5 个字段组成：</p>
+<ul>
+<li>Table ID：事件所属的表 ID</li>
+<li>Before：数据的前置图像</li>
+<li>After：数据的后置图像</li>
+<li>Operation type：变更操作的类型</li>
+<li>Meta：变更的元数据</li>
+</ul>
+<p>操作类型字段预定义了 4 种操作类型：</p>
+<ul>
+<li>插入（Insert）：新数据条目，before &#x3D; null，after &#x3D; 新数据</li>
+<li>删除（Delete）：数据删除，before &#x3D; 被删除的数据，after &#x3D; null</li>
+<li>更新（Update）：已存在数据的更新，before &#x3D; 变更前的数据，after &#x3D; 变更后的数据</li>
+<li>替换（Replace）</li>
+</ul>
+<h4><span id="schemachangeevent">SchemaChangeEvent</span></h4><p><em>SchemaChangeEvent</em> 描述了外部系统中表结构的更改</p>
+<ul>
+<li>AddColumnEvent：表中的新列</li>
+<li>AlterColumnTypeEvent：列类型的更改</li>
+<li>CreateTableEvent：创建新表。也用于描述预发出的 DataChangeEvent 的模式</li>
+<li>DropColumnEvent：删除列</li>
+<li>RenameColumnEvent：列名更改</li>
+</ul>
+<h4><span id="事件流">事件流</span></h4><p>如果一个表对框架是新的，则在任何 DataChangeEvent 之前必须发出 CreateTableEvent；如果表的 schema 发生变化，则必须在任何 DataChangeEvent 之前发出 SchemaChangeEvent。</p>
+<img data-src="/2024/03/28/%E7%BB%BC%E5%90%88%E5%AE%9E%E8%AE%AD%E8%B0%83%E7%A0%94/flow-of-events.png" class title="事件流图">
+
+<h3><span id="如何使用-flink-cdc">如何使用 Flink CDC</span></h3><p><a target="_blank" rel="noopener" href="https://nightlies.apache.org/flink/flink-cdc-docs-release-3.0/zh/docs/get-started/quickstart/mysql-to-doris/">MySQL 同步到 Doris</a><br>Flink CDC 提供了基于 YAML 格式的用户 API，更适合于数据集成场景。以下是一个 YAML 文件的示例，它定义了一个数据管道(Pipeline)，该Pipeline从 MySQL 捕获实时变更，并将它们同步到 Apache Doris：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">source:</span><br><span class="line">  type: mysql</span><br><span class="line">  hostname: localhost</span><br><span class="line">  port: 3306</span><br><span class="line">  username: root</span><br><span class="line">  password: 123456</span><br><span class="line">  tables: app_db.\.*</span><br><span class="line">  server-id: 5400-5404</span><br><span class="line">  server-time-zone: UTC</span><br><span class="line"></span><br><span class="line">sink:</span><br><span class="line">  type: doris</span><br><span class="line">  fenodes: 127.0.0.1:8030</span><br><span class="line">  username: root</span><br><span class="line">  password: &quot;&quot;</span><br><span class="line">  table.create.properties.light_schema_change: true</span><br><span class="line">  table.create.properties.replication_num: 1</span><br><span class="line"></span><br><span class="line">pipeline:</span><br><span class="line">  name: Sync MySQL Database to Doris</span><br><span class="line">  parallelism: 2</span><br></pre></td></tr></table></figure>
+<p>源数据库（source）是 MySQL，连接信息包括主机名（localhost）、端口（3306）、用户名（root）、密码（123456）、表（app_db下的所有表）、服务器ID（5400-5404）和服务器时区（UTC）。<br>目标数据库（sink）是 Doris，连接信息包括FE节点（127.0.0.1:8030）、用户名（root）、密码（空字符串，即没有密码）、表创建属性（包括轻量模式变更和复制数等设置）。<br>Pipeline 部分定义了数据同步任务的名称（Sync MySQL Database to Doris）和并行度（2）。</p>
+<h2><span id="kafka">Kafka</span></h2><p>Kafka 是由 Linkedin 公司开发的，它是一个分布式的，支持多分区、多副本，基于 Zookeeper 的分布式消息流平台，它同时也是一款开源的基于发布订阅模式的消息引擎系统。</p>
+<h3><span id="主要术语">主要术语</span></h3><p>以下文段摘录于 <a target="_blank" rel="noopener" href="https://kafka.apache.org/intro">kafka</a> 官方。</p>
+<p>An <em>event</em> records the fact that “something happened” in the world or in your business. It is also called record or message in the documentation. When you read or write data to Kafka, you do this in the form of events. Conceptually, an event has a <em>key</em>, <em>value</em>, <em>timestamp</em>, and <em>optional metadata headers</em>.<br>An example：</p>
+<ul>
+<li>key：“Alice”</li>
+<li>value：“向 Bob 支付了 200 美元”</li>
+<li>timestamp：“2020 年 6 月 25 日下午 2：06”。</li>
+</ul>
+<p><em>Producers</em> are those client applications that publish (write) events to Kafka, and <em>consumers</em> are those that subscribe to (read and process) these events. </p>
+<img data-src="/2024/03/28/%E7%BB%BC%E5%90%88%E5%AE%9E%E8%AE%AD%E8%B0%83%E7%A0%94/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85.png" class title="生产者-消费者模式">
+
+<p>Events are organized and durably stored in <em>topics</em>. A topic is similar to a folder in a filesystem, and the events are the files in that folder. Topics in Kafka are always <strong>multi-producer and multi-subscriber</strong>.</p>
+<p>Topics are partitioned, meaning a topic is spread over a number of “buckets” located on different Kafka brokers. </p>
+<p>Kafka 保证具有相同 Key 的事件写入被同一分区，读取时按写入顺序读。但是 Kafka <strong>不保证</strong>不同 Partition 获取的信息是有序的，只保证同 Partition 内消息有序。</p>
+<img data-src="/2024/03/28/%E7%BB%BC%E5%90%88%E5%AE%9E%E8%AE%AD%E8%B0%83%E7%A0%94/Kafka.png" class title="分区示意图">
+
+<h3><span id="快速入门-kafka">快速入门 Kafka</span></h3><p><a target="_blank" rel="noopener" href="https://kafka.apache.org/quickstart">快速入门</a></p>
+<h3><span id="kafka-和-rabbitmq-的区别">Kafka 和 RabbitMQ 的区别</span></h3><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>RabbitMQ</th>
+<th>Kafka</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>架构</td>
+<td>RabbitMQ 的架构专为复杂的消息路由而设计。该代理使用推送模型。生产者使用不同的规则向使用者发送消息。</td>
+<td>Kafka 使用基于分区的设计进行实时、高吞吐量的流处理。该代理使用拉取模型。生产者向使用者订阅的主题和分区发布消息。</td>
+</tr>
+<tr>
+<td>消息处理</td>
+<td>RabbitMQ 代理监控消息使用。此代理会在消息被使用后将其删除。它支持消息优先级。</td>
+<td>使用者使用偏移跟踪器跟踪消息检索情况。Kafka 根据保留策略保留消息。其中没有消息优先级。</td>
+</tr>
+<tr>
+<td>性能</td>
+<td>RabbitMQ 提供低延迟。它每秒发送数千条消息。</td>
+<td>Kafka 每秒可实时传输多达数百万条消息。</td>
+</tr>
+<tr>
+<td>编程语言</td>
+<td>RabbitMQ 支持多种语言和旧式协议。</td>
+<td>Kafka 的编程语言选择有限。该代理在 TCP 上使用二进制协议进行数据传输。</td>
+</tr>
+</tbody></table>
+<h2><span id="elasticsearch">ElasticSearch</span></h2><p><a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/documents-indices.html">Elasticsearch</a> is a distributed document store. Instead of storing information as rows of columnar data, Elasticsearch stores complex data structures that have been serialized as JSON documents.</p>
+<p>Elasticsearch REST API 支持结构化查询、全文查询和将两者结合在一起的查询的复杂查询 </p>
+<p>和普通的数据库模糊搜索不同，<em>Elasticsearch</em> 的模糊搜索是能使用上索引的，所以在大数据场景下搜索速度快；而且，<em>Elasticsearch</em> 的模糊搜索支持排序，只返回排名高的记录；另外，<em>Elasticsearch</em> 的模糊搜索在遇到不太准确的关键字时也能搜出相关结果。</p>
+<h2><span id="kibana">Kibana</span></h2><p><a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/kibana/current/introduction.html">Kibana</a> enables you to give shape to your data and navigate the Elastic Stack</p>
+<h3><span id="kibana-和-elasticsearch-关系">Kibana 和 ElasticSearch 关系</span></h3><p>Kibana 运行在 Elasticsearch 之上，主要用于分析日志消息。</p>
+
     </div>
 
     
@@ -300,7 +395,10 @@
     <a href="/2024/03/27/Go%E8%B0%83%E7%94%A8geth_JSON_RPC%E6%8E%A5%E5%8F%A3/" rel="prev" title="Go调用geth JSON RPC接口">
       <i class="fa fa-chevron-left"></i> Go调用geth JSON RPC接口
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2024/03/30/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E9%93%BE%E9%83%A8%E7%BD%B2%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/" rel="next" title="以太坊私链部署智能合约">
+      以太坊私链部署智能合约 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -359,6 +457,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">Flink CDC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.1.</span> <span class="nav-text">事件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">1.1.1.</span> <span class="nav-text">DataChangeEvent</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">1.1.2.</span> <span class="nav-text">SchemaChangeEvent</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">1.1.3.</span> <span class="nav-text">事件流</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.2.</span> <span class="nav-text">如何使用 Flink CDC</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">Kafka</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">2.1.</span> <span class="nav-text">主要术语</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">2.2.</span> <span class="nav-text">快速入门 Kafka</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">2.3.</span> <span class="nav-text">Kafka 和 RabbitMQ 的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">ElasticSearch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">4.</span> <span class="nav-text">Kibana</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">4.1.</span> <span class="nav-text">Kibana 和 ElasticSearch 关系</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -374,7 +473,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -426,13 +525,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">4k</span>
+    <span title="站点总字数">19k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">4 分钟</span>
+    <span title="站点阅读时长">17 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>

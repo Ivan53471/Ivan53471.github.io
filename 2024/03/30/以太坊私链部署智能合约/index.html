@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"47.120.40.107","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":true,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="编写智能合约以下编写了一个简单的存储智能合约，不是 NFT 智能合约。 12345678910111213141516171819&#x2F;&#x2F; SPDX-License-Identifier: GPL-3.0pragma solidity &gt;&#x3D;0.4.16 &lt;0.9.0;contract SimpleStorage &#123;    uint storedData;    function">
+<meta property="og:type" content="article">
+<meta property="og:title" content="以太坊私链部署智能合约">
+<meta property="og:url" content="https://47.120.40.107/2024/03/30/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E9%93%BE%E9%83%A8%E7%BD%B2%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/index.html">
+<meta property="og:site_name" content="黄梓铭 (Ivan Wong)">
+<meta property="og:description" content="编写智能合约以下编写了一个简单的存储智能合约，不是 NFT 智能合约。 12345678910111213141516171819&#x2F;&#x2F; SPDX-License-Identifier: GPL-3.0pragma solidity &gt;&#x3D;0.4.16 &lt;0.9.0;contract SimpleStorage &#123;    uint storedData;    function">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://47.120.40.107/2024/03/30/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E9%93%BE%E9%83%A8%E7%BD%B2%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/image.png">
+<meta property="article:published_time" content="2024-03-30T13:50:41.000Z">
+<meta property="article:modified_time" content="2024-03-31T12:53:23.451Z">
+<meta property="article:author" content="黄梓铭">
+<meta property="article:tag" content="C&#x2F;C++, C#, Go, 算法, 游戏">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://47.120.40.107/2024/03/30/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E9%93%BE%E9%83%A8%E7%BD%B2%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/image.png">
+
+<link rel="canonical" href="https://47.120.40.107/2024/03/30/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E9%93%BE%E9%83%A8%E7%BD%B2%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>以太坊私链部署智能合约 | 黄梓铭 (Ivan Wong)</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">黄梓铭 (Ivan Wong)</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">4</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">6</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://47.120.40.107/2024/03/30/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E9%93%BE%E9%83%A8%E7%BD%B2%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/MyPhoto.jpg">
+      <meta itemprop="name" content="黄梓铭">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黄梓铭 (Ivan Wong)">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          以太坊私链部署智能合约
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-03-30 21:50:41" itemprop="dateCreated datePublished" datetime="2024-03-30T21:50:41+08:00">2024-03-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-03-31 20:53:23" itemprop="dateModified" datetime="2024-03-31T20:53:23+08:00">2024-03-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%A7%91%E7%A0%94/" itemprop="url" rel="index"><span itemprop="name">科研</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>8 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2><span id="编写智能合约">编写智能合约</span></h2><p>以下编写了一个简单的存储智能合约，不是 <em>NFT</em> 智能合约。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// SPDX-License-Identifier: GPL-3.0</span><br><span class="line">pragma solidity &gt;=0.4.16 &lt;0.9.0;</span><br><span class="line"></span><br><span class="line">contract SimpleStorage &#123;</span><br><span class="line">    uint storedData;</span><br><span class="line"></span><br><span class="line">    function set(uint x) public &#123;</span><br><span class="line">        storedData = x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function get() public view returns (uint) &#123;</span><br><span class="line">        return storedData;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function add(uint x) public &#123;</span><br><span class="line">        uint y = x + storedData;</span><br><span class="line">        storedData = y;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2><span id="编译智能合约">编译智能合约</span></h2><p>在 <em>Remix</em> 上compile刚刚写好的智能合约，然后会出现以下界面，ABI 和 Bytecode 待会需要用到  </p>
+<img data-src="/2024/03/30/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E9%93%BE%E9%83%A8%E7%BD%B2%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/image.png" class>
+
+<h2><span id="部署智能合约">部署智能合约</span></h2><p>这里实现两种部署智能合约的方式，一种是在 geth 控制台部署，一种是使用 Go 实现</p>
+<h3><span id="geth-控制台部署">geth 控制台部署</span></h3><p>1、解锁账户</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">personal.unlockAccount(eth.coinbase)</span><br></pre></td></tr></table></figure>
+
+<p>2、录入智能合约的 bytecode</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var code = </span><br><span class="line">&quot;6080604052348015600e575f80fd5b506101e48061001c5f395ff3fe608060405234801561000f575f80fd5b506004361061003f575f3560e01c80631003e2d21461004357806360fe47b11461005f5780636d4ce63c1461007b575b5f80fd5b61005d600480360381019061005891906100fb565b610099565b005b610079600480360381019061007491906100fb565b6100b3565b005b6100836100bc565b6040516100909190610135565b60405180910390f35b5f8054826100a7919061017b565b9050805f819055505050565b805f8190555050565b5f8054905090565b5f80fd5b5f819050919050565b6100da816100c8565b81146100e4575f80fd5b50565b5f813590506100f5816100d1565b92915050565b5f602082840312156101105761010f6100c4565b5b5f61011d848285016100e7565b91505092915050565b61012f816100c8565b82525050565b5f6020820190506101485f830184610126565b92915050565b7f4e487b71000000000000000000000000000000000000000000000000000000005f52601160045260245ffd5b5f610185826100c8565b9150610190836100c8565b92508282019050808211156101a8576101a761014e565b5b9291505056fea26469706673582212209645cec1c57b3e0ea64b23d942988cdc634242f2c015ac31b32aa6ddac78ade164736f6c63430008190033&quot;</span><br></pre></td></tr></table></figure>
+
+<p>3、录入智能合约的 ABI<br>ABI 需要先经过压缩转义</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var abi=JSON.parse(&#x27;[&#123;\&quot;inputs\&quot;:[&#123;\&quot;internalType\&quot;:\&quot;uint256\&quot;,\&quot;name\&quot;:\&quot;x\&quot;,\&quot;type\&quot;:\&quot;uint256\&quot;&#125;],\&quot;name\&quot;:\&quot;add\&quot;,\&quot;outputs\&quot;:[],\&quot;stateMutability\&quot;:\&quot;nonpayable\&quot;,\&quot;type\&quot;:\&quot;function\&quot;&#125;,&#123;\&quot;inputs\&quot;:[],\&quot;name\&quot;:\&quot;get\&quot;,\&quot;outputs\&quot;:[&#123;\&quot;internalType\&quot;:\&quot;uint256\&quot;,\&quot;name\&quot;:\&quot;\&quot;,\&quot;type\&quot;:\&quot;uint256\&quot;&#125;],\&quot;stateMutability\&quot;:\&quot;view\&quot;,\&quot;type\&quot;:\&quot;function\&quot;&#125;,&#123;\&quot;inputs\&quot;:[&#123;\&quot;internalType\&quot;:\&quot;uint256\&quot;,\&quot;name\&quot;:\&quot;x\&quot;,\&quot;type\&quot;:\&quot;uint256\&quot;&#125;],\&quot;name\&quot;:\&quot;set\&quot;,\&quot;outputs\&quot;:[],\&quot;stateMutability\&quot;:\&quot;nonpayable\&quot;,\&quot;type\&quot;:\&quot;function\&quot;&#125;]&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p>4、部署智能合约</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">eth.estimateGas(&#123;data: code&#125;) //先估算需要多大的gas</span><br><span class="line"></span><br><span class="line">//创建智能合约类</span><br><span class="line">var myContract = eth.contract(abi)</span><br><span class="line">//创建合约实例</span><br><span class="line">//from后填写的是账户的地址，gas后填写你愿意支付的gas</span><br><span class="line">var contract1 = myContract.new(&#123;from:&quot;account_address&quot;, data:code, gas:2000000&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>5、启动节点挖矿<br>因为在私链上没有其他节点挖矿，而部署智能合约也是一笔交易，所以需要节点挖矿使这笔交易打包上链，智能合约才部署成功</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">miner.start()</span><br><span class="line">miner.stop()</span><br><span class="line">contract1.address //查看部署到链上的合约的地址</span><br></pre></td></tr></table></figure>
+
+<p>6、调用智能合约<br>第一种调用用于需要花费 gas 的函数，第二种则用于不需要花费 gas 的函数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">personal.unlockAccount(eth.coinbase)</span><br><span class="line">contract.function_name.sendTransaction(&quot;parameter_1&quot;,&quot;parameter_2&quot;,&#123;from:&quot;account_address&quot;&#125;)</span><br><span class="line">contract.function_name.call(&quot;parameter_1&quot;,&quot;parameter_2&quot;)</span><br></pre></td></tr></table></figure>
+
+<h3><span id="使用-go-部署">使用 Go 部署</span></h3><p>这里想要实现的效果是，每次新创建一个账户的时候，都会自动部署该智能合约，这一功能用 Go 实现。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;context&quot;</span></span><br><span class="line">    <span class="string">&quot;crypto/ecdsa&quot;</span></span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;log&quot;</span></span><br><span class="line">    <span class="string">&quot;math/big&quot;</span></span><br><span class="line">    <span class="string">&quot;net/http&quot;</span></span><br><span class="line">    <span class="string">&quot;strings&quot;</span></span><br><span class="line">    <span class="string">&quot;bytes&quot;</span></span><br><span class="line">    <span class="string">&quot;io/ioutil&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="string">&quot;github.com/ethereum/go-ethereum/accounts/abi&quot;</span></span><br><span class="line">    <span class="string">&quot;github.com/ethereum/go-ethereum/accounts/abi/bind&quot;</span></span><br><span class="line">    <span class="string">&quot;github.com/ethereum/go-ethereum/common&quot;</span></span><br><span class="line">    <span class="string">&quot;github.com/ethereum/go-ethereum/crypto&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将智能合约的ABI复制到这里，需要先经过压缩转义</span></span><br><span class="line"><span class="keyword">var</span> contractABI = <span class="string">&quot;</span></span><br><span class="line"><span class="string">[&#123;\&quot;inputs\&quot;:[&#123;\&quot;internalType\&quot;:\&quot;uint256\&quot;,\&quot;name\&quot;:\&quot;x\&quot;,\&quot;type\&quot;:\&quot;uint256\&quot;&#125;],\&quot;name\&quot;:\&quot;add\&quot;,\&quot;outputs\&quot;:[],\&quot;stateMutability\&quot;:\&quot;nonpayable\&quot;,\&quot;type\&quot;:\&quot;function\&quot;&#125;,&#123;\&quot;inputs\&quot;:[],\&quot;name\&quot;:\&quot;get\&quot;,\&quot;outputs\&quot;:[&#123;\&quot;internalType\&quot;:\&quot;uint256\&quot;,\&quot;name\&quot;:\&quot;\&quot;,\&quot;type\&quot;:\&quot;uint256\&quot;&#125;],\&quot;stateMutability\&quot;:\&quot;view\&quot;,\&quot;type\&quot;:\&quot;function\&quot;&#125;,&#123;\&quot;inputs\&quot;:[&#123;\&quot;internalType\&quot;:\&quot;uint256\&quot;,\&quot;name\&quot;:\&quot;x\&quot;,\&quot;type\&quot;:\&quot;uint256\&quot;&#125;],\&quot;name\&quot;:\&quot;set\&quot;,\&quot;outputs\&quot;:[],\&quot;stateMutability\&quot;:\&quot;nonpayable\&quot;,\&quot;type\&quot;:\&quot;function\&quot;&#125;]&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// Geth 节点的 HTTP-RPC 地址</span></span><br><span class="line">    rpcURL := <span class="string">&quot;http://localhost:8545&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建新账户的密码</span></span><br><span class="line">    newPassword := <span class="string">&quot;your_password&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 构造 JSON-RPC 请求体，创建新账户</span></span><br><span class="line">    payload := strings.NewReader(<span class="string">`&#123;&quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;method&quot;:&quot;personal_newAccount&quot;,&quot;params&quot;:[&quot;`</span> + newPassword + <span class="string">`&quot;],&quot;id&quot;:1&#125;`</span>)</span><br><span class="line">    resp, err := http.Post(rpcURL, <span class="string">&quot;application/json&quot;</span>, payload)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        log.Fatal(err)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">defer</span> resp.Body.Close()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 解析创建新账户的响应</span></span><br><span class="line">    <span class="keyword">var</span> newAccountResp <span class="keyword">struct</span> &#123;</span><br><span class="line">        Result <span class="type">string</span> <span class="string">`json:&quot;result&quot;`</span></span><br><span class="line">        Error  *<span class="keyword">struct</span> &#123;</span><br><span class="line">            Message <span class="type">string</span> <span class="string">`json:&quot;message&quot;`</span></span><br><span class="line">        &#125; <span class="string">`json:&quot;error&quot;`</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> err := json.NewDecoder(resp.Body).Decode(&amp;newAccountResp); err != <span class="literal">nil</span> &#123;</span><br><span class="line">        log.Fatal(err)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> newAccountResp.Error != <span class="literal">nil</span> &#123;</span><br><span class="line">        log.Fatalf(<span class="string">&quot;Failed to create new account: %s&quot;</span>, newAccountResp.Error.Message)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 解析新账户地址</span></span><br><span class="line">    newAccountAddress := common.HexToAddress(newAccountResp.Result)</span><br><span class="line">    fmt.Printf(<span class="string">&quot;New account address: %s\n&quot;</span>, newAccountAddress.Hex())</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 连接到本地的 Geth 节点</span></span><br><span class="line">    client, err := rpc.Dial(rpcURL)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        log.Fatal(err)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">defer</span> client.Close()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取当前 gas 价格</span></span><br><span class="line">    <span class="keyword">var</span> gasPrice *big.Int</span><br><span class="line">    <span class="keyword">if</span> err := client.CallContext(context.Background(), &amp;gasPrice, <span class="string">&quot;eth_gasPrice&quot;</span>); err != <span class="literal">nil</span> &#123;</span><br><span class="line">        log.Fatal(err)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 部署智能合约</span></span><br><span class="line">    auth := bind.NewKeyedTransactor(newAccountAddress.Hex())</span><br><span class="line">    auth.Value = big.NewInt(<span class="number">0</span>)           <span class="comment">// 部署时发送的以太币数量</span></span><br><span class="line">    auth.GasLimit = <span class="type">uint64</span>(<span class="number">3000000</span>)      <span class="comment">// 指定 gas 限制</span></span><br><span class="line">    auth.GasPrice = gasPrice              <span class="comment">// 使用当前 gas 价格</span></span><br><span class="line">    input := <span class="string">&quot;0x&quot;</span> + <span class="string">&quot;6080604052348015600e575f80fd5b506101e48061001c5f395ff3fe608060405234801561000f575f80fd5b506004361061003f575f3560e01c80631003e2d21461004357806360fe47b11461005f5780636d4ce63c1461007b575b5f80fd5b61005d600480360381019061005891906100fb565b610099565b005b610079600480360381019061007491906100fb565b6100b3565b005b6100836100bc565b6040516100909190610135565b60405180910390f35b5f8054826100a7919061017b565b9050805f819055505050565b805f8190555050565b5f8054905090565b5f80fd5b5f819050919050565b6100da816100c8565b81146100e4575f80fd5b50565b5f813590506100f5816100d1565b92915050565b5f602082840312156101105761010f6100c4565b5b5f61011d848285016100e7565b91505092915050565b61012f816100c8565b82525050565b5f6020820190506101485f830184610126565b92915050565b7f4e487b71000000000000000000000000000000000000000000000000000000005f52601160045260245ffd5b5f610185826100c8565b9150610190836100c8565b92508282019050808211156101a8576101a761014e565b5b9291505056fea26469706673582212209645cec1c57b3e0ea64b23d942988cdc634242f2c015ac31b32aa6ddac78ade164736f6c63430008190033&quot;</span></span><br><span class="line">    address, tx, _, err := bind.DeployContract(auth, abi.JSON(contractABI), common.FromHex(input), client)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        log.Fatal(err)</span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;Contract address: %s\n&quot;</span>, address.Hex())</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 等待智能合约部署完成</span></span><br><span class="line">    _, err = bind.WaitDeployed(context.Background(), client, tx)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        log.Fatal(err)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// // 输出新创建的账户地址和私钥</span></span><br><span class="line">    <span class="comment">// fmt.Printf(&quot;New account address: %s\n&quot;, newAccountAddress.Hex())</span></span><br><span class="line">    <span class="comment">// fmt.Printf(&quot;Private key: %x\n&quot;, crypto.FromECDSA(privateKey))</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2><span id="调用智能合约">调用智能合约</span></h2><h3><span id="安装-abigen-工具">安装 abigen 工具</span></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go get -u github.com/ethereum/go-ethereum</span><br></pre></td></tr></table></figure>
+
+<h3><span id="生成合约绑定代码">生成合约绑定代码</span></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">abigen --sol SimpleStorage.sol --pkg main --out SimpleStorage.go</span><br></pre></td></tr></table></figure>
+
+<h3><span id="在-main-函数中添加智能合约绑定和调用智能合约">在 main 函数中添加智能合约绑定和调用智能合约</span></h3><p>NewSimpleStorage 不是一个标准函数，而是在使用 abigen 时创建的一个函数，用于创建智能合约的绑定对象</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建智能合约绑定</span></span><br><span class="line">contract, err := NewSimpleStorage(address, client)</span><br><span class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">    log.Fatal(err)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用智能合约的 get 函数</span></span><br><span class="line">result, err := contract.Get(<span class="literal">nil</span>)</span><br><span class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">    log.Fatal(err)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fmt.Printf(<span class="string">&quot;Result of get function: %s\n&quot;</span>, result.String())</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>赏个鸡腿🍗</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="黄梓铭 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="黄梓铭 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/03/28/%E7%BB%BC%E5%90%88%E5%AE%9E%E8%AE%AD%E8%B0%83%E7%A0%94/" rel="prev" title="综合实训调研">
+      <i class="fa fa-chevron-left"></i> 综合实训调研
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">编写智能合约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">编译智能合约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">部署智能合约</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">3.1.</span> <span class="nav-text">geth 控制台部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">3.2.</span> <span class="nav-text">使用 Go 部署</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">4.</span> <span class="nav-text">调用智能合约</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">4.1.</span> <span class="nav-text">安装 abigen 工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">4.2.</span> <span class="nav-text">生成合约绑定代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">4.3.</span> <span class="nav-text">在 main 函数中添加智能合约绑定和调用智能合约</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="黄梓铭"
+      src="/images/MyPhoto.jpg">
+  <p class="site-author-name" itemprop="name">黄梓铭</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Ivan53471" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Ivan53471" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/1480639239@qq.com" title="E-Mail → 1480639239@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">黄梓铭</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">19k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">17 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
