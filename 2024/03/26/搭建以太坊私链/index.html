@@ -33,8 +33,9 @@
 <meta property="og:image" content="https://47.120.40.107/2024/03/26/%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E9%93%BE/init.png">
 <meta property="og:image" content="https://47.120.40.107/2024/03/26/%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E9%93%BE/init_fatal.png">
 <meta property="og:image" content="https://47.120.40.107/2024/03/26/%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E9%93%BE/success.png">
+<meta property="og:image" content="https://47.120.40.107/2024/03/26/%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E9%93%BE/peercount_change.png">
 <meta property="article:published_time" content="2024-03-26T03:19:07.000Z">
-<meta property="article:modified_time" content="2024-04-15T05:03:51.702Z">
+<meta property="article:modified_time" content="2024-04-15T13:33:12.135Z">
 <meta property="article:author" content="黄梓铭">
 <meta property="article:tag" content="C&#x2F;C++, C#, Go, 算法, 游戏">
 <meta name="twitter:card" content="summary">
@@ -228,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-04-15 13:03:51" itemprop="dateModified" datetime="2024-04-15T13:03:51+08:00">2024-04-15</time>
+                <time title="修改时间：2024-04-15 21:33:12" itemprop="dateModified" datetime="2024-04-15T21:33:12+08:00">2024-04-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -253,14 +254,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.3k</span>
+              <span>6.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>4 分钟</span>
+              <span>6 分钟</span>
             </span>
 
         </div>
@@ -376,7 +377,28 @@
 <p>目前的解决方法是，修改私链启动语句，将所有和 HTTP-RPC 相关的参数都删去 (不能与 –unlock 并存)，并添加 –unlock 参数，在启动链的时候就解锁账户，之后的步骤和之前相同</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">geth --datadir ./project/MyChain/ --unlock 0x890fb1799fe7fa4b8e01ccf343e088d946fcd556 console</span><br></pre></td></tr></table></figure>
 
-<p>但是这样会产生新的问题，即无法远程调用 geth 提供的 HTTP-RPC API。目前想到的曲线救国方法是，一部分节点只用于挖矿，一部分节点用于提供 HTTP-RPC API，但还未测试过，不知是否可行。</p>
+<p>但是这样会产生新的问题，即无法远程调用 geth 提供的 HTTP-RPC API。目前想到的曲线救国方法是，一部分节点只用于挖矿 (以下称<em>挖矿节点</em>)，一部分节点用于提供 HTTP-RPC API (以下称<em>链接节点</em>)，但还未测试过，不知是否可行。</p>
+<hr>
+<p>24-4-15 更新: 这种方法似乎是可行的，但是不一定符合工业标准，具体做法是：<br>1、创建新目录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir ./project/node2</span><br></pre></td></tr></table></figure>
+
+<p>2、用原来的 genesis.json 初始化链</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">geth --datadir ./project/node2 init ./project/MyChain/genesis.json</span><br></pre></td></tr></table></figure>
+<p>并把 .&#x2F;project&#x2F;MyChain&#x2F;keystore 复制到 .&#x2F;project&#x2F;node2&#x2F;keystore</p>
+<p>3、启用链</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">geth --datadir ./project/node2 --http --http.port 8545 --http.corsdomain &quot;*&quot; --networkid 12345 --port 30305 --authrpc.port 8552</span><br></pre></td></tr></table></figure>
+
+<p>4、添加节点<br>复制链接节点的enode值，并在挖矿节点所在链控制台中输入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">admin.addPeer(&quot;enode://94d8388d7e97a8be1ee6005cc2bd81ad2b9f3e6580bec8a1305cac6271c5319b6a7e8273dfc82b0dab9c4c11ab71433f29ca30df3a4e327527a570ef1ed4bc28@127.0.0.1:30305&quot;)</span><br></pre></td></tr></table></figure>
+<p>成功后会出现以下界面，可以看到两次 Looking for peers 的 peercount 值发生了改变</p>
+<img data-src="/2024/03/26/%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E9%93%BE/peercount_change.png" class>
+
+<p>5、使用 node.js 远程创建交易<br>以下是一个简单的转账交易例子，在任意位置创建文件 tx.js</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">Web3</span> = <span class="built_in">require</span>(<span class="string">&#x27;web3&#x27;</span>).<span class="property">default</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> web3 = <span class="keyword">new</span> <span class="title class_">Web3</span>(<span class="string">&#x27;http://localhost:8545&#x27;</span>);</span><br><span class="line"></span><br><span class="line">(<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> privateKey = <span class="string">&#x27;替换成您的私钥&#x27;</span>; <span class="comment">// 私钥，确保正确和安全地处理</span></span><br><span class="line">    <span class="keyword">var</span> tx = &#123;</span><br><span class="line">        <span class="attr">from</span>: <span class="string">&quot;0x890fb1799fe7fa4b8e01ccf343e088d946fcd556&quot;</span>,</span><br><span class="line">        <span class="attr">to</span>: <span class="string">&quot;0x4c6ead33b265da463eef7367798ade6aa8e9d12&quot;</span>,</span><br><span class="line">        <span class="attr">value</span>: web3.<span class="property">utils</span>.<span class="title function_">toWei</span>(<span class="number">1</span>, <span class="string">&quot;ether&quot;</span>), <span class="comment">// 转账金额，单位为以太</span></span><br><span class="line">        <span class="attr">gas</span>: <span class="number">21000</span>, <span class="comment">// 交易的 gas 限额</span></span><br><span class="line">        <span class="attr">gasPrice</span>: web3.<span class="property">utils</span>.<span class="title function_">toWei</span>(<span class="number">10</span>, <span class="string">&quot;gwei&quot;</span>) <span class="comment">// gas 价格，单位为 wei</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 签名交易</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> signedTx = <span class="keyword">await</span> web3.<span class="property">eth</span>.<span class="property">accounts</span>.<span class="title function_">signTransaction</span>(tx, privateKey);</span><br><span class="line">        <span class="keyword">const</span> receipt = <span class="keyword">await</span> web3.<span class="property">eth</span>.<span class="title function_">sendSignedTransaction</span>(signedTx.<span class="property">rawTransaction</span>);</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;交易收据:&#x27;</span>, receipt);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;签名或发送交易出错:&#x27;</span>, err);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+<p>在挖矿节点所在链用 miner.start() 等待交易提交上链 (这里作者不确定是否需要在链接节点所在链用 miner.start()，正常来说会因为没有解锁账户而失败，但是似乎要这样做才能使两个节点同步)<br>创建好交易后，就可以使用以下命令提交交易</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node tx.js</span><br></pre></td></tr></table></figure>
+<p>然后同时在两条链都查询账户余额，发现数额相同，说明两条节点成功同步</p>
 <h2><span id="部署智能合约">部署智能合约</span></h2><p>参照下一篇文章</p>
 <a href="/2024/03/30/%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E9%93%BE%E9%83%A8%E7%BD%B2%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/" title="以太坊私链部署智能合约">以太坊私链部署智能合约</a>
 
@@ -565,13 +587,13 @@ geth --datadir ../project/MyChain/ --networkid 15 --rpc console 2>output.log
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">21k</span>
+    <span title="站点总字数">23k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">19 分钟</span>
+    <span title="站点阅读时长">21 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
