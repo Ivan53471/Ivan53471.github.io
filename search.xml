@@ -628,4 +628,46 @@ geth --datadir ../project/MyChain/ --networkid 15 --rpc console 2>output.log
         <category>综合实训</category>
       </categories>
   </entry>
+  <entry>
+    <title>Kibana_on_ES 配置教程</title>
+    <url>/2024/05/10/Kibana-on-ES/</url>
+    <content><![CDATA[<h2><span id="配置过程">配置过程</span></h2><p>实验环境: Kibana 版本8.7.1, Elasticsearch 版本8.7.1，在 wsl2-ubuntu22.0.4 上部署</p>
+<p>作者在启动 Kibana 的时候，遇到了找不到 nodejs 的报错，最后发现是 kibana-x.x.x&#x2F;node 文件权限的问题，只需要用 chmod 755 kibana-x.x.x&#x2F;node 即可</p>
+<span id="more"></span>
+
+<h3><span id="es-单节点配置">ES 单节点配置</span></h3><p>修改 config&#x2F;elasticsearch.yml 文件，添加如下内容，ip地址输入本机wsl地址，可以通过 hostname -I 命令活动</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cluster.name: es-8.7.1</span><br><span class="line">node.name: es-9201</span><br><span class="line">path.data: ~\elastic\data\9201</span><br><span class="line">path.logs: ~\elastic\logs\9201</span><br><span class="line">network.host: 172.21.168.87</span><br><span class="line">http.port: 9201</span><br><span class="line">transport.port: 9301</span><br></pre></td></tr></table></figure>
+<img data-src="/2024/05/10/Kibana-on-ES/1.png" class>
+
+<p>在 kibana-8.7.1&#x2F; 新建 data 和 logs 文件夹</p>
+<p>运行启动命令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./elastic/elasticsearch-8.7.1/bin/elasticsearch</span><br></pre></td></tr></table></figure>
+
+<p>启动后会在控制台输出账号的密码和用于 kibana 的 enrollment token，先保存下来，待会有用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-------------------------------------------------------------------------------------------------------------------------&gt; Elasticsearch security features have been automatically configured!</span><br><span class="line">-&gt; Authentication is enabled and cluster connections are encrypted.</span><br><span class="line"></span><br><span class="line">-&gt;  Password for the elastic user (reset with `bin/elasticsearch-reset-password -u elastic`):</span><br><span class="line">  rlF=_=7wFIrdNj6Zh9Z2</span><br><span class="line"></span><br><span class="line">-&gt;  HTTP CA certificate SHA-256 fingerprint:</span><br><span class="line">  a15c8cfcb300affed0dbdf73c318339366b8d8ba076657056e6b85170669d0d6</span><br><span class="line"></span><br><span class="line">-&gt;  Configure Kibana to use this cluster:</span><br><span class="line">* Run Kibana and click the configuration link in the terminal when Kibana starts.</span><br><span class="line">* Copy the following enrollment token and paste it into Kibana in your browser (valid for the next 30 minutes):</span><br><span class="line">  eyJ2ZXIiOiI4LjQuMiIsImFkciI6WyIxMjcuMC4wLjE6OTIwMSJdLCJmZ3IiOiJhMTVjOGNmY2IzMDBhZmZlZDBkYmRmNzNjMzE4MzM5MzY2YjhkOGJhMDc2NjU3MDU2ZTZiODUxNzA2NjlkMGQ2Iiwia2V5IjoienFtTmJZTUJfdzhtUUpvajh2TEI6WDlkMVlwenNTcENqWGV4bER4UE5QdyJ9</span><br><span class="line"></span><br><span class="line">-&gt;  Configure other nodes to join this cluster:</span><br><span class="line">* On this node:</span><br><span class="line">  - Create an enrollment token with `bin/elasticsearch-create-enrollment-token -s node`.</span><br><span class="line">  - Uncomment the transport.host setting at the end of config/elasticsearch.yml.</span><br><span class="line">  - Restart Elasticsearch.</span><br><span class="line">* On other nodes:</span><br><span class="line">  - Start Elasticsearch with `bin/elasticsearch --enrollment-token &lt;token&gt;`, using the enrollment token that you generated.</span><br></pre></td></tr></table></figure>
+
+<p>如果没有保存下来、token过期，也可以手动重置</p>
+<p>把 ES 启动后，就可以通过以下两条命令重置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 重置密码</span><br><span class="line">./elastic/elasticsearch-8.7.1/bin/elasticsearch-reset-password -u elastic</span><br><span class="line"># 重置 token</span><br><span class="line">./elastic/elasticsearch-8.7.1/bin/elasticsearch-create-enrollment-token -s kibana --url &quot;https://172.21.168.87:9201&quot;</span><br></pre></td></tr></table></figure>
+
+<img data-src="/2024/05/10/Kibana-on-ES/2.png" class>
+
+<img data-src="/2024/05/10/Kibana-on-ES/3.png" class>
+
+<p>配置好ES，就可以通过浏览器访问了(记得要加https)</p>
+<img data-src="/2024/05/10/Kibana-on-ES/4.png" class>
+
+<h3><span id="kibana-配置">Kibana 配置</span></h3><p>重开一个 wsl 窗口，执行以下命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd ~</span><br><span class="line">./kibana-8.7.1/bin/kibana</span><br></pre></td></tr></table></figure>
+
+<p>使用命令行给出的ip和端口访问kibana</p>
+<img data-src="/2024/05/10/Kibana-on-ES/5.png" class>
+
+<p>输入刚刚复制下来的账号密码</p>
+<img data-src="/2024/05/10/Kibana-on-ES/6.png" class>]]></content>
+      <categories>
+        <category>学习</category>
+        <category>综合实训</category>
+      </categories>
+  </entry>
 </search>
