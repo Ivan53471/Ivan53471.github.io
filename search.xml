@@ -697,7 +697,7 @@ geth --datadir ../project/MyChain/ --networkid 15 --rpc console 2>output.log
 
 <h3><span id="创建用户">创建用户</span></h3><p>这里要用 geth account new 创建一个用户，用户的信息会存在 &#x2F;project&#x2F;node1&#x2F;keystore 下<br>此处需要输入密码创建用户，要记得这里的密码，待会有用</p>
 <h3><span id="启用链">启用链</span></h3><p>此处启用私链，并且开启RPC接口<br>此处就是本文的重点，也就是题目中所说的“一条命令”</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">geth --datadir node1 --http --http.addr 8.134.209.144 --http.port 8545 --http.corsdomain &quot;*&quot; --networkid 12345 --mine --miner.etherbase &quot;0x890fb1799fe7fa4b8e01ccf343e088d946fcd556&quot; --allow-insecure-unlock --unlock &quot;0x890fb1799fe7fa4b8e01ccf343e088d946fcd556&quot; --password password.txt</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">geth --datadir node1 --http --http.addr 0.0.0.0 --http.port 8545 --http.corsdomain &quot;*&quot; --networkid 12345 --mine --miner.etherbase &quot;0x890fb1799fe7fa4b8e01ccf343e088d946fcd556&quot; --allow-insecure-unlock --unlock &quot;0x890fb1799fe7fa4b8e01ccf343e088d946fcd556&quot; --password password.txt</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>http：开启 RPC 接口</li>
@@ -723,6 +723,21 @@ geth --datadir ../project/MyChain/ --networkid 15 --rpc console 2>output.log
 ]]></content>
       <categories>
         <category>科研</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>每日一题考研题——计网1</title>
+    <url>/2024/05/12/%E8%AE%A1%E7%BD%911/</url>
+    <content><![CDATA[<h2><span id="题目">题目</span></h2><img data-src="/2024/05/12/%E8%AE%A1%E7%BD%911/1.jpg" class>
+
+<span id="more"></span>
+
+<h2><span id="解题思路">解题思路</span></h2><img data-src="/2024/05/12/%E8%AE%A1%E7%BD%911/2.jpg" class>
+
+]]></content>
+      <categories>
+        <category>每日一题考研题</category>
+        <category>计网</category>
       </categories>
   </entry>
 </search>
