@@ -726,18 +726,29 @@ geth --datadir ../project/MyChain/ --networkid 15 --rpc console 2>output.log
       </categories>
   </entry>
   <entry>
-    <title>每日一题考研题——计网1</title>
-    <url>/2024/05/12/%E8%AE%A1%E7%BD%911/</url>
-    <content><![CDATA[<h2><span id="题目">题目</span></h2><img data-src="/2024/05/12/%E8%AE%A1%E7%BD%911/1.jpg" class>
+    <title>每日一题考研题——计网(持续更新)</title>
+    <url>/2024/05/12/%E8%AE%A1%E7%BD%91/</url>
+    <content><![CDATA[<h2><span id="1">1</span></h2><h3><span id="题目">题目</span></h3><img data-src="/2024/05/12/%E8%AE%A1%E7%BD%91/1-1.jpg" class>
 
-<span id="more"></span>
+<h3><span id="解题思路">解题思路</span></h3><img data-src="/2024/05/12/%E8%AE%A1%E7%BD%91/1-2.jpg" class>
 
-<h2><span id="解题思路">解题思路</span></h2><img data-src="/2024/05/12/%E8%AE%A1%E7%BD%911/2.jpg" class>
-
-]]></content>
+<span id="more"></span>]]></content>
       <categories>
         <category>每日一题考研题</category>
         <category>计网</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>每日一题考研题——高数(持续更新)</title>
+    <url>/2024/05/14/%E9%AB%98%E6%95%B0/</url>
+    <content><![CDATA[<h2><span id="1">1</span></h2><h3><span id="题目">题目</span></h3><img data-src="/2024/05/14/%E9%AB%98%E6%95%B0/1-1.jpg" class>
+
+<h3><span id="解题思路">解题思路</span></h3><img data-src="/2024/05/14/%E9%AB%98%E6%95%B0/1-2.jpg" class>
+
+<span id="more"></span>]]></content>
+      <categories>
+        <category>每日一题考研题</category>
+        <category>高数</category>
       </categories>
   </entry>
 </search>
