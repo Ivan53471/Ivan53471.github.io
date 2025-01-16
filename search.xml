@@ -55,6 +55,48 @@
       </categories>
   </entry>
   <entry>
+    <title>Kibana_on_ES 配置教程</title>
+    <url>/2024/05/10/Kibana-on-ES/</url>
+    <content><![CDATA[<h2><span id="配置过程">配置过程</span></h2><p>实验环境: Kibana 版本8.7.1, Elasticsearch 版本8.7.1，在 wsl2-ubuntu22.0.4 上部署</p>
+<p>作者在启动 Kibana 的时候，遇到了找不到 nodejs 的报错，最后发现是 kibana-x.x.x&#x2F;node 文件权限的问题，只需要用 chmod 755 kibana-x.x.x&#x2F;node 即可</p>
+<span id="more"></span>
+
+<h3><span id="es-单节点配置">ES 单节点配置</span></h3><p>修改 config&#x2F;elasticsearch.yml 文件，添加如下内容，ip地址输入本机wsl地址，可以通过 hostname -I 命令活动</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cluster.name: es-8.7.1</span><br><span class="line">node.name: es-9201</span><br><span class="line">path.data: ~\elastic\data\9201</span><br><span class="line">path.logs: ~\elastic\logs\9201</span><br><span class="line">network.host: 172.21.168.87</span><br><span class="line">http.port: 9201</span><br><span class="line">transport.port: 9301</span><br></pre></td></tr></table></figure>
+<img data-src="/2024/05/10/Kibana-on-ES/1.png" class>
+
+<p>在 kibana-8.7.1&#x2F; 新建 data 和 logs 文件夹</p>
+<p>运行启动命令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./elastic/elasticsearch-8.7.1/bin/elasticsearch</span><br></pre></td></tr></table></figure>
+
+<p>启动后会在控制台输出账号的密码和用于 kibana 的 enrollment token，先保存下来，待会有用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-------------------------------------------------------------------------------------------------------------------------&gt; Elasticsearch security features have been automatically configured!</span><br><span class="line">-&gt; Authentication is enabled and cluster connections are encrypted.</span><br><span class="line"></span><br><span class="line">-&gt;  Password for the elastic user (reset with `bin/elasticsearch-reset-password -u elastic`):</span><br><span class="line">  rlF=_=7wFIrdNj6Zh9Z2</span><br><span class="line"></span><br><span class="line">-&gt;  HTTP CA certificate SHA-256 fingerprint:</span><br><span class="line">  a15c8cfcb300affed0dbdf73c318339366b8d8ba076657056e6b85170669d0d6</span><br><span class="line"></span><br><span class="line">-&gt;  Configure Kibana to use this cluster:</span><br><span class="line">* Run Kibana and click the configuration link in the terminal when Kibana starts.</span><br><span class="line">* Copy the following enrollment token and paste it into Kibana in your browser (valid for the next 30 minutes):</span><br><span class="line">  eyJ2ZXIiOiI4LjQuMiIsImFkciI6WyIxMjcuMC4wLjE6OTIwMSJdLCJmZ3IiOiJhMTVjOGNmY2IzMDBhZmZlZDBkYmRmNzNjMzE4MzM5MzY2YjhkOGJhMDc2NjU3MDU2ZTZiODUxNzA2NjlkMGQ2Iiwia2V5IjoienFtTmJZTUJfdzhtUUpvajh2TEI6WDlkMVlwenNTcENqWGV4bER4UE5QdyJ9</span><br><span class="line"></span><br><span class="line">-&gt;  Configure other nodes to join this cluster:</span><br><span class="line">* On this node:</span><br><span class="line">  - Create an enrollment token with `bin/elasticsearch-create-enrollment-token -s node`.</span><br><span class="line">  - Uncomment the transport.host setting at the end of config/elasticsearch.yml.</span><br><span class="line">  - Restart Elasticsearch.</span><br><span class="line">* On other nodes:</span><br><span class="line">  - Start Elasticsearch with `bin/elasticsearch --enrollment-token &lt;token&gt;`, using the enrollment token that you generated.</span><br></pre></td></tr></table></figure>
+
+<p>如果没有保存下来、token过期，也可以手动重置</p>
+<p>把 ES 启动后，就可以通过以下两条命令重置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 重置密码</span><br><span class="line">./elastic/elasticsearch-8.7.1/bin/elasticsearch-reset-password -u elastic</span><br><span class="line"># 重置 token</span><br><span class="line">./elastic/elasticsearch-8.7.1/bin/elasticsearch-create-enrollment-token -s kibana --url &quot;https://172.21.168.87:9201&quot;</span><br></pre></td></tr></table></figure>
+
+<img data-src="/2024/05/10/Kibana-on-ES/2.png" class>
+
+<img data-src="/2024/05/10/Kibana-on-ES/3.png" class>
+
+<p>配置好ES，就可以通过浏览器访问了(记得要加https)</p>
+<img data-src="/2024/05/10/Kibana-on-ES/4.png" class>
+
+<h3><span id="kibana-配置">Kibana 配置</span></h3><p>重开一个 wsl 窗口，执行以下命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd ~</span><br><span class="line">./kibana-8.7.1/bin/kibana</span><br></pre></td></tr></table></figure>
+
+<p>使用命令行给出的ip和端口访问 kibana</p>
+<img data-src="/2024/05/10/Kibana-on-ES/5.png" class>
+
+<p>输入刚刚复制下来的账号密码，就可以成功连接上 kibana</p>
+<img data-src="/2024/05/10/Kibana-on-ES/6.png" class>]]></content>
+      <categories>
+        <category>学习</category>
+        <category>综合实训</category>
+      </categories>
+  </entry>
+  <entry>
     <title>My First Post</title>
     <url>/2024/03/23/My-First-Post/</url>
     <content><![CDATA[<h2><span id="start-my-blogging-journey">Start My Blogging Journey</span></h2><p>This is my first post. Although it seems to be essential, I have never done this before.<br>I want to create my own blog, which can show my identity.</p>
@@ -187,27 +229,6 @@
       </categories>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2024/03/23/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2><span id="quick-start">Quick Start</span></h2><h3><span id="create-a-new-post">Create a new post</span></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3><span id="run-server">Run server</span></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3><span id="generate-static-files">Generate static files</span></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3><span id="deploy-to-remote-sites">Deploy to remote sites</span></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-      <categories>
-        <category>startup</category>
-      </categories>
-  </entry>
-  <entry>
     <title>doris_on_es 配置教程</title>
     <url>/2024/05/07/doris-on-es/</url>
     <content><![CDATA[<h2><span id="项目用处">项目用处</span></h2><p>Doris通过创建外部表方式将Doris的分布式查询规划能力和ES(Elasticsearch)的全文检索能力相结合，提供更完善的 OLAP 分析场景解决方案，支持：</p>
@@ -249,6 +270,82 @@
       <categories>
         <category>学习</category>
         <category>综合实训</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2024/03/23/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2><span id="quick-start">Quick Start</span></h2><h3><span id="create-a-new-post">Create a new post</span></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3><span id="run-server">Run server</span></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3><span id="generate-static-files">Generate static files</span></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3><span id="deploy-to-remote-sites">Deploy to remote sites</span></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>startup</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>一条命令成功搭建以太坊私链</title>
+    <url>/2024/05/11/%E4%B8%80%E6%9D%A1%E5%91%BD%E4%BB%A4%E6%88%90%E5%8A%9F%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E9%93%BE/</url>
+    <content><![CDATA[<h2><span id="本文亮点">本文亮点</span></h2><p>作者认为，本教程是目前网络上最新且最简单的，“一条命令”指的并不是真的只需一条命令，但是核心命令只有一条</p>
+<ul>
+<li>最新：网上的教程基本是一年前甚至几年前写的，某些参数和控制台命令已经不能使用</li>
+<li>最简单：相较于作者之前写的教程和网上的教程，省去了与 geth console 交互的步骤</li>
+</ul>
+<p>本文的命令以 Windows 系统为准</p>
+<span id="more"></span>
+
+<h2><span id="配置私链">配置私链</span></h2><p>这一步可以参考作者以前的教程：<a href="/2024/03/26/%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E9%93%BE/" title="搭建以太坊私链">搭建以太坊私链</a>，到搭建私链前的部分</p>
+<h2><span id="搭建私链">搭建私链</span></h2><h3><span id="创造配置文件">创造配置文件</span></h3><p>在不同于以太坊源码的文件路径下创一个文件夹和.json文件，命名为genesis.json</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir ./project</span><br><span class="line">mkdir ./project/node1</span><br><span class="line"># 在./project/node1/ 下创建genesis.json</span><br></pre></td></tr></table></figure>
+
+<p>在这个 json 文件下，配置这个私链的参数，注意这里的 “alloc” 字段下的地址，是需要填入 geth account new 新建的用户<br>这里使用的共识机制是 <a href="https://geth.ethereum.org/docs/tools/clef/clique-signing">Clique</a>，</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;config&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;chainId&quot;</span><span class="punctuation">:</span> <span class="number">12345</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;homesteadBlock&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;eip150Block&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;eip155Block&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;eip158Block&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;byzantiumBlock&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;constantinopleBlock&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;petersburgBlock&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;istanbulBlock&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;berlinBlock&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;clique&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;period&quot;</span><span class="punctuation">:</span> <span class="number">5</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;epoch&quot;</span><span class="punctuation">:</span> <span class="number">30000</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;difficulty&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;gasLimit&quot;</span><span class="punctuation">:</span> <span class="string">&quot;8000000&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;extradata&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0x0000000000000000000000000000000000000000000000000000000000000000890fb1799fe7fa4b8e01ccf343e088d946fcd5560000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;alloc&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;890fb1799fe7fa4b8e01ccf343e088d946fcd556&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;balance&quot;</span><span class="punctuation">:</span> <span class="string">&quot;300000&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;14c6ead33b265da463eef7367798ade6aa8e9d12&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;balance&quot;</span><span class="punctuation">:</span> <span class="string">&quot;400000&quot;</span> <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3><span id="初始化链">初始化链</span></h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">geth --datadir node1 init node1/genesis.json</span><br></pre></td></tr></table></figure>
+<p>成功后会出现以下提示 (可能会有 Error 信息，可以忽略)</p>
+
+
+<p>假如出现以下报错，可以删除 .&#x2F;project&#x2F;MyChain&#x2F; 目录下新生成的两个文件夹，只保留 .json 文件</p>
+
+
+<h3><span id="创建用户">创建用户</span></h3><p>这里要用 geth account new 创建一个用户，用户的信息会存在 &#x2F;project&#x2F;node1&#x2F;keystore 下<br>此处需要输入密码创建用户，要记得这里的密码，待会有用</p>
+<h3><span id="启用链">启用链</span></h3><p>此处启用私链，并且开启RPC接口<br>此处就是本文的重点，也就是题目中所说的“一条命令”</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">geth --datadir node1 --http --http.addr 0.0.0.0 --http.port 8545 --http.corsdomain &quot;*&quot; --networkid 12345 --mine --miner.etherbase &quot;0x890fb1799fe7fa4b8e01ccf343e088d946fcd556&quot; --allow-insecure-unlock --unlock &quot;0x890fb1799fe7fa4b8e01ccf343e088d946fcd556&quot; --password password.txt</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>http：开启 RPC 接口</li>
+<li>http.port：指定端口，默认8545</li>
+<li>http.addr ：HTTP-RPC 监听的ip地址，默认localhost</li>
+<li>http.corsdomain：跨域请求，”*”为允许所有来源的跨域请求</li>
+<li>networkid：指定链的id，以太坊主链id为1</li>
+<li>mine：启用挖矿，只有启用了才能打包交易成区块</li>
+<li>miner.etherbase：需要显式指定coinbase，这里选刚刚创建的账户</li>
+<li>allow-insecure-unlock：这是最重要的一个参数，没有这个参数 unlock 和 http 不能共存</li>
+<li>unlock：非交互式解锁账户，选择刚刚创建的账户</li>
+<li>password：在 &#x2F;project 下新建 password.txt，把刚刚的密码放到这个文件中，通过这个参数就可以被读取到，而不用交互式输入</li>
+</ul>
+<p>如果需要创建多节点，有一些参数是需要显式指定的，不同节点这些参数也要不同，否则会报错</p>
+<ul>
+<li>port：指定链这个程序占用的端口，默认30303</li>
+<li>authrpc.port：authenticated APIs的端口，默认8551</li>
+<li>ipcpath：默认 \.\pipe\geth.ipc</li>
+</ul>
+<p>启用成功后，可以发现链已经在挖矿了，此时提交交易可以被顺利执行；而且 http 服务也成功被开启</p>
+<img data-src="/2024/05/11/%E4%B8%80%E6%9D%A1%E5%91%BD%E4%BB%A4%E6%88%90%E5%8A%9F%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E9%93%BE/success.png" class>
+
+]]></content>
+      <categories>
+        <category>科研</category>
       </categories>
   </entry>
   <entry>
@@ -626,103 +723,6 @@ geth --datadir ../project/MyChain/ --networkid 15 --rpc console 2>output.log
       <categories>
         <category>学习</category>
         <category>综合实训</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Kibana_on_ES 配置教程</title>
-    <url>/2024/05/10/Kibana-on-ES/</url>
-    <content><![CDATA[<h2><span id="配置过程">配置过程</span></h2><p>实验环境: Kibana 版本8.7.1, Elasticsearch 版本8.7.1，在 wsl2-ubuntu22.0.4 上部署</p>
-<p>作者在启动 Kibana 的时候，遇到了找不到 nodejs 的报错，最后发现是 kibana-x.x.x&#x2F;node 文件权限的问题，只需要用 chmod 755 kibana-x.x.x&#x2F;node 即可</p>
-<span id="more"></span>
-
-<h3><span id="es-单节点配置">ES 单节点配置</span></h3><p>修改 config&#x2F;elasticsearch.yml 文件，添加如下内容，ip地址输入本机wsl地址，可以通过 hostname -I 命令活动</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cluster.name: es-8.7.1</span><br><span class="line">node.name: es-9201</span><br><span class="line">path.data: ~\elastic\data\9201</span><br><span class="line">path.logs: ~\elastic\logs\9201</span><br><span class="line">network.host: 172.21.168.87</span><br><span class="line">http.port: 9201</span><br><span class="line">transport.port: 9301</span><br></pre></td></tr></table></figure>
-<img data-src="/2024/05/10/Kibana-on-ES/1.png" class>
-
-<p>在 kibana-8.7.1&#x2F; 新建 data 和 logs 文件夹</p>
-<p>运行启动命令</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./elastic/elasticsearch-8.7.1/bin/elasticsearch</span><br></pre></td></tr></table></figure>
-
-<p>启动后会在控制台输出账号的密码和用于 kibana 的 enrollment token，先保存下来，待会有用</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-------------------------------------------------------------------------------------------------------------------------&gt; Elasticsearch security features have been automatically configured!</span><br><span class="line">-&gt; Authentication is enabled and cluster connections are encrypted.</span><br><span class="line"></span><br><span class="line">-&gt;  Password for the elastic user (reset with `bin/elasticsearch-reset-password -u elastic`):</span><br><span class="line">  rlF=_=7wFIrdNj6Zh9Z2</span><br><span class="line"></span><br><span class="line">-&gt;  HTTP CA certificate SHA-256 fingerprint:</span><br><span class="line">  a15c8cfcb300affed0dbdf73c318339366b8d8ba076657056e6b85170669d0d6</span><br><span class="line"></span><br><span class="line">-&gt;  Configure Kibana to use this cluster:</span><br><span class="line">* Run Kibana and click the configuration link in the terminal when Kibana starts.</span><br><span class="line">* Copy the following enrollment token and paste it into Kibana in your browser (valid for the next 30 minutes):</span><br><span class="line">  eyJ2ZXIiOiI4LjQuMiIsImFkciI6WyIxMjcuMC4wLjE6OTIwMSJdLCJmZ3IiOiJhMTVjOGNmY2IzMDBhZmZlZDBkYmRmNzNjMzE4MzM5MzY2YjhkOGJhMDc2NjU3MDU2ZTZiODUxNzA2NjlkMGQ2Iiwia2V5IjoienFtTmJZTUJfdzhtUUpvajh2TEI6WDlkMVlwenNTcENqWGV4bER4UE5QdyJ9</span><br><span class="line"></span><br><span class="line">-&gt;  Configure other nodes to join this cluster:</span><br><span class="line">* On this node:</span><br><span class="line">  - Create an enrollment token with `bin/elasticsearch-create-enrollment-token -s node`.</span><br><span class="line">  - Uncomment the transport.host setting at the end of config/elasticsearch.yml.</span><br><span class="line">  - Restart Elasticsearch.</span><br><span class="line">* On other nodes:</span><br><span class="line">  - Start Elasticsearch with `bin/elasticsearch --enrollment-token &lt;token&gt;`, using the enrollment token that you generated.</span><br></pre></td></tr></table></figure>
-
-<p>如果没有保存下来、token过期，也可以手动重置</p>
-<p>把 ES 启动后，就可以通过以下两条命令重置</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 重置密码</span><br><span class="line">./elastic/elasticsearch-8.7.1/bin/elasticsearch-reset-password -u elastic</span><br><span class="line"># 重置 token</span><br><span class="line">./elastic/elasticsearch-8.7.1/bin/elasticsearch-create-enrollment-token -s kibana --url &quot;https://172.21.168.87:9201&quot;</span><br></pre></td></tr></table></figure>
-
-<img data-src="/2024/05/10/Kibana-on-ES/2.png" class>
-
-<img data-src="/2024/05/10/Kibana-on-ES/3.png" class>
-
-<p>配置好ES，就可以通过浏览器访问了(记得要加https)</p>
-<img data-src="/2024/05/10/Kibana-on-ES/4.png" class>
-
-<h3><span id="kibana-配置">Kibana 配置</span></h3><p>重开一个 wsl 窗口，执行以下命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd ~</span><br><span class="line">./kibana-8.7.1/bin/kibana</span><br></pre></td></tr></table></figure>
-
-<p>使用命令行给出的ip和端口访问 kibana</p>
-<img data-src="/2024/05/10/Kibana-on-ES/5.png" class>
-
-<p>输入刚刚复制下来的账号密码，就可以成功连接上 kibana</p>
-<img data-src="/2024/05/10/Kibana-on-ES/6.png" class>]]></content>
-      <categories>
-        <category>学习</category>
-        <category>综合实训</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>一条命令成功搭建以太坊私链</title>
-    <url>/2024/05/11/%E4%B8%80%E6%9D%A1%E5%91%BD%E4%BB%A4%E6%88%90%E5%8A%9F%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E9%93%BE/</url>
-    <content><![CDATA[<h2><span id="本文亮点">本文亮点</span></h2><p>作者认为，本教程是目前网络上最新且最简单的，“一条命令”指的并不是真的只需一条命令，但是核心命令只有一条</p>
-<ul>
-<li>最新：网上的教程基本是一年前甚至几年前写的，某些参数和控制台命令已经不能使用</li>
-<li>最简单：相较于作者之前写的教程和网上的教程，省去了与 geth console 交互的步骤</li>
-</ul>
-<p>本文的命令以 Windows 系统为准</p>
-<span id="more"></span>
-
-<h2><span id="配置私链">配置私链</span></h2><p>这一步可以参考作者以前的教程：<a href="/2024/03/26/%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E9%93%BE/" title="搭建以太坊私链">搭建以太坊私链</a>，到搭建私链前的部分</p>
-<h2><span id="搭建私链">搭建私链</span></h2><h3><span id="创造配置文件">创造配置文件</span></h3><p>在不同于以太坊源码的文件路径下创一个文件夹和.json文件，命名为genesis.json</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir ./project</span><br><span class="line">mkdir ./project/node1</span><br><span class="line"># 在./project/node1/ 下创建genesis.json</span><br></pre></td></tr></table></figure>
-
-<p>在这个 json 文件下，配置这个私链的参数，注意这里的 “alloc” 字段下的地址，是需要填入 geth account new 新建的用户<br>这里使用的共识机制是 <a href="https://geth.ethereum.org/docs/tools/clef/clique-signing">Clique</a>，</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;config&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;chainId&quot;</span><span class="punctuation">:</span> <span class="number">12345</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;homesteadBlock&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;eip150Block&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;eip155Block&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;eip158Block&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;byzantiumBlock&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;constantinopleBlock&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;petersburgBlock&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;istanbulBlock&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;berlinBlock&quot;</span><span class="punctuation">:</span> <span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;clique&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;period&quot;</span><span class="punctuation">:</span> <span class="number">5</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;epoch&quot;</span><span class="punctuation">:</span> <span class="number">30000</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;difficulty&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;gasLimit&quot;</span><span class="punctuation">:</span> <span class="string">&quot;8000000&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;extradata&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0x0000000000000000000000000000000000000000000000000000000000000000890fb1799fe7fa4b8e01ccf343e088d946fcd5560000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;alloc&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;890fb1799fe7fa4b8e01ccf343e088d946fcd556&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;balance&quot;</span><span class="punctuation">:</span> <span class="string">&quot;300000&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;14c6ead33b265da463eef7367798ade6aa8e9d12&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;balance&quot;</span><span class="punctuation">:</span> <span class="string">&quot;400000&quot;</span> <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<h3><span id="初始化链">初始化链</span></h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">geth --datadir node1 init node1/genesis.json</span><br></pre></td></tr></table></figure>
-<p>成功后会出现以下提示 (可能会有 Error 信息，可以忽略)</p>
-
-
-<p>假如出现以下报错，可以删除 .&#x2F;project&#x2F;MyChain&#x2F; 目录下新生成的两个文件夹，只保留 .json 文件</p>
-
-
-<h3><span id="创建用户">创建用户</span></h3><p>这里要用 geth account new 创建一个用户，用户的信息会存在 &#x2F;project&#x2F;node1&#x2F;keystore 下<br>此处需要输入密码创建用户，要记得这里的密码，待会有用</p>
-<h3><span id="启用链">启用链</span></h3><p>此处启用私链，并且开启RPC接口<br>此处就是本文的重点，也就是题目中所说的“一条命令”</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">geth --datadir node1 --http --http.addr 0.0.0.0 --http.port 8545 --http.corsdomain &quot;*&quot; --networkid 12345 --mine --miner.etherbase &quot;0x890fb1799fe7fa4b8e01ccf343e088d946fcd556&quot; --allow-insecure-unlock --unlock &quot;0x890fb1799fe7fa4b8e01ccf343e088d946fcd556&quot; --password password.txt</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>http：开启 RPC 接口</li>
-<li>http.port：指定端口，默认8545</li>
-<li>http.addr ：HTTP-RPC 监听的ip地址，默认localhost</li>
-<li>http.corsdomain：跨域请求，”*”为允许所有来源的跨域请求</li>
-<li>networkid：指定链的id，以太坊主链id为1</li>
-<li>mine：启用挖矿，只有启用了才能打包交易成区块</li>
-<li>miner.etherbase：需要显式指定coinbase，这里选刚刚创建的账户</li>
-<li>allow-insecure-unlock：这是最重要的一个参数，没有这个参数 unlock 和 http 不能共存</li>
-<li>unlock：非交互式解锁账户，选择刚刚创建的账户</li>
-<li>password：在 &#x2F;project 下新建 password.txt，把刚刚的密码放到这个文件中，通过这个参数就可以被读取到，而不用交互式输入</li>
-</ul>
-<p>如果需要创建多节点，有一些参数是需要显式指定的，不同节点这些参数也要不同，否则会报错</p>
-<ul>
-<li>port：指定链这个程序占用的端口，默认30303</li>
-<li>authrpc.port：authenticated APIs的端口，默认8551</li>
-<li>ipcpath：默认 \.\pipe\geth.ipc</li>
-</ul>
-<p>启用成功后，可以发现链已经在挖矿了，此时提交交易可以被顺利执行；而且 http 服务也成功被开启</p>
-<img data-src="/2024/05/11/%E4%B8%80%E6%9D%A1%E5%91%BD%E4%BB%A4%E6%88%90%E5%8A%9F%E6%90%AD%E5%BB%BA%E4%BB%A5%E5%A4%AA%E5%9D%8A%E7%A7%81%E9%93%BE/success.png" class>
-
-]]></content>
-      <categories>
-        <category>科研</category>
       </categories>
   </entry>
 </search>
